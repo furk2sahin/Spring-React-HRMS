@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel='stylesheet' type='text/css' href='../Styles/Blueprint_Styles/Style.css' />
+    <script src='../Scripts/Blueprint_Scripts/Script.js' type='text/javascript'></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/github.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style type="text/css">
+        .syntaxhighlighter {
+            overflow-y: hidden !important;
+            overflow-x: auto !important;
+        }
+    </style>
+    <title>EasyWSDL - MTOM Transfer</title>
+</head>
+<body>
+    <h2>MTOM Transfer</h2>
+
+    <p>
+        Typical SOAP web service has some limitation in sending a large binary data (like images, videos, documents, etc). Problem is that the binary data are base64-encoded and added to XML message body. Many XML parsers cannot parse very well huge in size documents. To address this issue there is a possibility to send binary data as an attachment (outside the SOAP message body). Of course Web service has to support this feature (MTOM transfer/attachment).
+
+        So if your web service supports MTOM transfer then you can use EasyWSDL to generate classes with attachment support. To do this you should select Add MTOM transfer in generator page. Please remember to add ExKsoap2-1.X.X.X.jar library to your project (you will find it in libs folder in generated zip file)
+    </p>
+    To enable MTOM transfer, you need to set enableMTOM to true, like this:
+    <h4>Uploading file</h4>
+    <pre>
+    <codeGenerator class="java">
+MtomTestService service = new MtomTestService();
+service.enableMTOM=true;
+
+ByteArrayOutputStream stream=wrapper.getImageStream(R.drawable.ic_launcher1);
+byte[] image = stream.toByteArray();
+Result result = new Result();
+result.FileContent=new BinaryObject(image);
+result.Message=Integer.toString(image.length);
+
+isValid=service.UploadFile_ComplexArray(result);
+        </codeGenerator>
+    </pre>
+    <h4>Retrieving file</h4>
+    <pre>
+    <codeGenerator class="java">
+MimeServiceTestPortBinding service = new MimeServiceTestPortBinding(null,Constants.javaWS_mime_url);
+service.enableMTOM=true;
+
+BinaryObject imgBytes=service.retrievePicture(1);
+SoapAttachment attachment= (SoapAttachment) imgBytes.getUnderlayingObject();
+wrapper.setIcon(attachment.getStream(), false);
+        </codeGenerator>
+    </pre>
+    BinaryObject class represents any binary data and can be easly created from byte array, InputStream and other types.
+    <p>
+        By default, attachments are stored in a memory (it uses MemoryDestinationManager) so in case you retrieve large binary data you still can have OutOfMemoryException in Android. You can change this default behavior by using FileDestinationManager which uses file system to store attachments in files.
+    </p>
+    <p>To configure your classes to store attachments in files you can create a custom service class and overwrite CreateEnvelope method, like this (example from Android):</p>
+    <pre>
+        <codeGenerator class="java">
+import android.content.ContextWrapper;
+import com.easywsdl.exksoap2.mtom.FileDestinationManager;
+import com.example.AndroidCompileTest.wsdl.MtomTestService;
+import com.example.AndroidCompileTest.wsdl.ExtendedSoapSerializationEnvelope;
+public class CustomService extends MtomTestService
+{
+    ContextWrapper context;
+    FileDestinationManager manager;
+    public CustomService(ContextWrapper context)
+    {
+        this.context=context;
+    }
+    @Override
+    protected ExtendedSoapSerializationEnvelope createEnvelope() {
+        ExtendedSoapSerializationEnvelope envelope= super.createEnvelope();
+        String baseDirectory=context.getFilesDir().getPath();//directory where you want to store files with attachments
+        manager = new FileDestinationManager(baseDirectory)
+        envelope.setAttachmentDestinationManager(manager);
+        return envelope;
+    }
+    public void RemoveFiles()
+    {
+        manager.RemoveAllAttachments();
+    }
+}
+            </codeGenerator>
+        </pre>
+    <p>In baseDirectory you should set a path to the folder where you want to store files. We recommend to use a dedicated folder which can be deleted if you don't need attachments any more.</p>
+    <div class="warningBox" style="width: auto">
+        <p>
+            Keep in mind that attachments can be large and everytime your application download a new attachment it will take some space in device storage, so you should remove attachment files when you don't need them. To remove all attachment files, you can use RemoveAllFiles() method.
+        </p>
+    </div>
+</body>
+</html>
+

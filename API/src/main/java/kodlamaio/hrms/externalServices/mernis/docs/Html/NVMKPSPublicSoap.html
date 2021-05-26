@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>NVMKPSPublicSoap class</title>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/github.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel='stylesheet' type='text/css' href='../Styles/Blueprint_Styles/Style.css' />
+    <script src='../Scripts/Blueprint_Scripts/Script.js' type='text/javascript'></script>
+</head>
+    <body>
+        <h2>NVMKPSPublicSoap </h2>
+        
+        <p><strong>SOAP Version: 1.1</strong></p>
+        <p>Main class which you can use to connect to your web service</p>
+        
+        <h3>Important settings</h3>
+        <ul>
+            <li>Timeout - the timeout for network operations, in milliseconds. By default: 60 sec.
+                <br />
+                Example:<br />
+                <pre >
+                    <codeGenerator class="java">
+NVMKPSPublicSoap service = new NVMKPSPublicSoap(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx",30000);
+service.TCKimlikNoDogrula();
+                    </codeGenerator>
+        
+</pre>
+            </li>
+            <li>Url - the web service address. By default it is retrieved from the wsdl file
+                <br />
+                Example:<br />
+                <pre >
+                    <codeGenerator class="java">
+NVMKPSPublicSoap service = new NVMKPSPublicSoap(null,"https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx");
+service.TCKimlikNoDogrula();
+                    </codeGenerator>
+        
+</pre>
+            </li>
+            <li>httpHeaders - allows you to add custom headers to the http requests.
+                <br/>
+                Example:<br/>
+                <pre >
+                    <codeGenerator class="java">
+NVMKPSPublicSoap service = new NVMKPSPublicSoap();
+service.httpHeaders.add( new HeaderProperty("Authorization","Basic QWxhZGRpbjpPcGVuU2VzYW1l"));
+service.TCKimlikNoDogrula();
+                    </codeGenerator>
+</pre>
+
+            </li>
+            <li>
+                Enable logging - if you enable logging, all requests/responses will be write to the console (for debugging purposes)
+                <br />
+                Example:<br />
+                <pre >
+                    <codeGenerator class="java">
+NVMKPSPublicSoap service = new NVMKPSPublicSoap();
+service.enableLogging=true;
+service.TCKimlikNoDogrula();
+                    </codeGenerator>
+</pre>
+            </li>
+        </ul>
+        
+        <h3>Methods</h3>
+        <ul>
+                <li><a href="NVMKPSPublicSoap_methods.html#TCKimlikNoDogrula">TCKimlikNoDogrula</a></li>
+        </ul>
+    </body>
+</html>
+

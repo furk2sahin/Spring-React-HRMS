@@ -1,0 +1,642 @@
+/* This file defines styles for all template elements.
+
+The following pages can help you get started with CSS:
+* CSS Tutorial (http://w3schools.com/css/default.asp)
+* CSS3 Tutorial (http://w3schools.com/css3/default.asp)
+* CSS Reference (http://w3schools.com/cssref/default.asp) */
+
+
+body
+{
+  font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+  margin: 0px;
+  padding: 0;
+  background: #f2f2f2 url('../../Storage/Blueprint_Files/CommonImages/debut_light.png');
+  color: #696969;
+}
+
+/* Import font from Google Web Fonts */
+@font-face {
+  font-family: 'Electrolize';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Electrolize'), local('Electrolize-Regular'), url(https://themes.googleusercontent.com/static/fonts/electrolize/v2/DDy9sgU2U7S4xAwH5thnJ4bN6UDyHWBl620a-IRfuBk.woff) format('woff');
+}
+
+/* Import font from Storage */
+@font-face {
+  font-family:'PTSansNarrowRegular';
+  src: local('PTSansNarrowRegular'), url('../../Storage/Blueprint_Files/Fonts/PTN57F-webfont.eot') format('embedded-opentype'),url('../../Storage/Blueprint_Files/Fonts/PTN57F-webfont.woff') format('woff'),url('.ttf') format('truetype/resources/Storage/Blueprint%20Template_Files/Fonts/PTN57F-webfont'),url('../../Storage/Blueprint_Files/Fonts/PTN57F-webfont.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+a
+{
+  color: #1240ab;
+}
+
+a:link,a:visited
+{
+  color: #1240ab;
+}
+
+a:hover
+{
+  color: #4671D5;
+  text-decoration: none;
+}
+
+a:active
+{
+  color: #2A4480;
+}
+
+a img
+{
+  border:0;
+}
+
+p
+{
+  text-align: justify;
+}
+
+h1
+{
+  font-family: 'Electrolize', sans-serif;
+  color: #6c8cd5;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+
+h2
+{
+  border-bottom: 1px solid #DEDEDE;
+  border-left: 5px solid #C4D1EE;  
+  font-family: 'PTSansNarrowRegular', sans-serif;  
+  text-align: left;
+  color: #886DDF;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+ul
+{
+  list-style-image: url('../../Storage/Blueprint_Files/CommonImages/list_item.png');
+  padding-left: 40px;
+}
+ul li
+{
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  vertical-align: middle;
+}
+
+ol
+{
+  padding-left: 40px;
+  font-family: 'Electrolize', sans-serif;
+  color: #1240ab;
+  font-weight: bold;  
+}
+ol li
+{
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+ol li p
+{    
+  margin: 0;
+  font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+  font-weight: normal; 
+  color:#696969;
+}
+
+/* --- Custom classes --- */
+
+/* Start Page */
+
+#startDiv1
+{
+  background: url('../../Storage/Blueprint_Files/CommonImages/noisy_grid.png');
+}
+
+#startDiv2
+{
+  background: url('../../Storage/Blueprint_Files/Images/AbstractBanner_WireGrids.jpg') no-repeat left top;
+  height: 120px;
+  border-bottom: 1px solid #a2a2a2;
+  border-left:5px solid #4671D5;
+}
+
+#startDiv2 h1
+{
+  margin: 0;
+  padding: 10px;
+  padding-top: 30px;
+  color: #412c84;
+  font-size: 40px;
+}
+
+#startWrapper
+{
+  background: white;
+  margin: 0;
+  text-align: justify;  
+}
+
+#startWrapper p
+{
+  padding-left: 10px;
+}
+
+#startTemplatesTable
+{
+  width: 100%;
+  padding: 10px;
+}
+
+#startTemplatesTable td
+{
+  vertical-align: top;
+  width: 33%;
+}
+
+#startTemplatesTable h2
+{
+  padding-top: 0;
+  padding-left: 10px;
+  border: 0px none;
+}
+
+#startContactUs
+{
+  padding: 10px;
+}
+
+/* Wrapper & footer elements */
+
+.wrapperDiv
+{
+  background: white url('../../Storage/Blueprint_Files/CommonImages/panel_back.png') repeat-x left top;
+  padding: 8px;
+  text-align: justify;
+}
+
+.footer
+{
+  font-size: 12px;
+  padding: 8px;
+  background-color: transparent;
+  background-image: url('../../Storage/Blueprint_Files/CommonImages/panel_back.png');
+  background-repeat: repeat-x;
+  background-position: left top;
+  color: #696969;
+}
+
+/* Tables */
+/* Simple table */
+.tableSimple
+{
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 10px;
+  margin-left: 30px;
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+	border: 1px solid #1240ab;
+}
+.tableSimple th
+{
+	padding: 15px 10px 10px 10px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #3914b0;
+  text-align:left;
+}
+.tableSimple tbody
+{
+	background: white;
+}
+.tableSimple td
+{
+	padding: 10px;
+	color: #333;
+	border-top: 1px dashed #06266f;
+  text-align: left;
+}
+.tableSimple tfoot td
+{
+	text-align:left;
+}
+.tableSimple tbody tr:hover td
+{
+	color: #06266f;
+	background: #F0EDFB;
+}
+
+/* Table with odd and even rows */
+.tableZebra
+{
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 10px;
+  margin-left: 30px;  
+	text-align: left;
+	border-collapse: collapse;
+}
+.tableZebra th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #3914b0;
+}
+.tableZebra td
+{
+	padding: 8px;
+	color: #333;
+}
+.tableZebra .odd
+{
+	background: #EFEAFF; 
+}
+
+/* Table with both rows and columns having odd/even styles */
+.tableVerZebra
+{
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 10px;
+  margin-left: 30px;  
+	text-align: left;
+	border-collapse: collapse;
+}
+.tableVerZebra th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 12px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #3914b0;
+}
+.tableVerZebra td
+{
+	padding: 8px 15px;
+	border-right: 1px solid #fff;
+	border-left: 1px solid #fff;
+	color: #333;
+}
+.tableVerZebraColOdd
+{
+	background: #E0E6F6;
+}
+.tableVerZebraColEven
+{
+	background: #F0EDFB;
+}
+.tableVerZebra .odd
+{
+	background: #d9d1f2;
+	border-bottom: 1px solid #AEA7C2;
+}
+.tableVerZebra .even
+{
+	background: #dce4ff;
+	border-bottom: 1px solid #99D699;
+}
+
+/* Pictures */
+
+.bigImage
+{
+  width: 500px;
+  height: 355px;
+  margin:auto;
+  display:block;
+  padding-top: 15px;
+  padding-bottom: 12px;
+}
+
+.bigImageSignature
+{
+  text-align: center;
+}
+
+/* Info Box */
+.infoBox
+{
+  width: 500px;
+  background-color: #efefef;
+  border-left: 5px solid #a7bae6;
+  padding: 8px;
+  font-size: 0.8em;  
+}
+
+.warningBox
+{
+  width: 500px;
+  background-color: #FFFAD0;
+  border-left: 5px solid #EEAD4D;
+  padding: 8px;
+  font-size: 0.8em;
+}
+
+/* Round Corners Box */
+.roundCornersBox
+{
+  padding: 10px;
+  width: 400px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;  
+  border: 1px solid #1240ab;
+  -moz-box-shadow: 2px 2px 5px #a2a2a2;
+  -webkit-box-shadow: 2px 2px 5px #a2a2a2;
+  box-shadow: 2px 2px 5px #a2a2a2;
+
+  border-radius: 8px 8px 8px 8px;
+  -moz-border-radius: 8px 8px 8px 8px;
+  -webkit-border-radius: 8px 8px 8px 8px;  
+}
+
+/* Text Shadow */
+.textShadow
+{
+  text-shadow: 1px 1px 1px #a2a2a2;
+}
+
+.textGlow
+{
+  text-shadow: 0px 0px 5px #6666DD;
+}
+
+/* Gradients */
+.gradTopBottom
+{
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1240ab), to(#dbd4f3));
+  
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(top, #dbd4f3, #1240ab);
+  
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(top, #dbd4f3, #1240ab);
+  
+  /* IE 10 */
+  background: -ms-linear-gradient(top, #dbd4f3, #1240ab);
+  
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(top, #dbd4f3, #1240ab);  
+}
+
+.gradLeftRight
+{  
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#1240ab), to(#dbd4f3));
+  
+  /* Safari 5.1, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #dbd4f3, #1240ab);
+  
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #dbd4f3, #1240ab);
+  
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #dbd4f3, #1240ab);
+  
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #dbd4f3, #1240ab);
+}
+
+.gradLeftRightCustomStops
+{
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 10px;  
+  
+  /* Safari 4-5, Chrome 1-9 */
+  background: -webkit-gradient(linear, left top, right top, from(#dbd4f3), color-stop(0.05, #1240ab), color-stop(0.5, #dbd4f3), color-stop(0.95, #1240ab), to(#dbd4f3));
+  
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-linear-gradient(left, #dbd4f3, #1240ab 5%, #dbd4f3, #1240ab 95%, #dbd4f3);
+  
+  /* Firefox 3.6+ */
+  background: -moz-linear-gradient(left, #dbd4f3, #1240ab 5%, #dbd4f3, #1240ab 95%, #dbd4f3);
+  
+  /* IE 10 */
+  background: -ms-linear-gradient(left, #dbd4f3, #1240ab 5%, #dbd4f3, #1240ab 95%, #dbd4f3);
+  
+  /* Opera 11.10+ */
+  background: -o-linear-gradient(left, #dbd4f3, #1240ab 5%, #dbd4f3, #1240ab 95%, #dbd4f3);
+}
+
+/* Animation */
+.movingTextContainer
+{
+  height: 220px;
+  width: 550px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.movingText
+{
+  position: relative;
+  width: 350px;
+  animation: movingTextAnimation 5s infinite;
+  -moz-animation: movingTextAnimation 5s infinite; /* Firefox */
+  -webkit-animation: movingTextAnimation 5s infinite; /* Safari and Chrome */
+  -o-animation: movingTextAnimation 5s infinite; /* Opera */  
+}
+
+@keyframes movingTextAnimation
+{
+0%   {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+25%  {text-shadow: 0px 0px 5px #1240ab; left: 200px; top: 0px;}
+50%  {text-shadow: 0px 0px 10px #1240ab; left: 200px; top: 200px;}
+75%  {text-shadow: 0px 0px 5px #1240ab; left: 0px; top: 200px;}
+100% {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+}
+
+@-moz-keyframes movingTextAnimation /* Firefox */
+{
+0%   {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+25%  {text-shadow: 0px 0px 5px #1240ab; left: 200px; top: 0px;}
+50%  {text-shadow: 0px 0px 10px #1240ab; left: 200px; top: 200px;}
+75%  {text-shadow: 0px 0px 5px #1240ab; left: 0px; top: 200px;}
+100% {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+}
+
+@-webkit-keyframes movingTextAnimation /* Safari and Chrome */
+{
+0%   {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+25%  {text-shadow: 0px 0px 5px #1240ab; left: 200px; top: 0px;}
+50%  {text-shadow: 0px 0px 10px #1240ab; left: 200px; top: 200px;}
+75%  {text-shadow: 0px 0px 5px #1240ab; left: 0px; top: 200px;}
+100% {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+}
+
+@-o-keyframes movingTextAnimation /* Opera */
+{
+0%   {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+25%  {text-shadow: 0px 0px 5px #1240ab; left: 200px; top: 0px;}
+50%  {text-shadow: 0px 0px 10px #1240ab; left: 200px; top: 200px;}
+75%  {text-shadow: 0px 0px 5px #1240ab; left: 0px; top: 200px;}
+100% {text-shadow: 0px 0px 1px #1240ab; left: 0px; top: 0px;}
+}
+
+/* Variables */
+
+.varGlobal
+{
+  background-color: #efefef;
+  white-space:nowrap;
+}
+
+.varProject
+{
+  background-color: #CCFFCC;
+  white-space:nowrap;
+}
+
+/* Conditional Content */
+
+.condContentInclude
+{
+  background-color: #E0F5FF;
+}
+
+.condContentExclude
+{
+  background-color: #FFE1CC;
+}
+
+
+/* Snippets */
+
+.sampleSnippet
+{
+  background-color: #F4E8FF;
+}
+
+/* Multiple Columns */
+
+.multiColTable
+{
+  width: 100%;
+}
+
+.multiColTable td
+{
+  width: 30%;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: justify;
+  vertical-align: top;
+}
+
+.multiColDiv
+{
+  -moz-column-count:3; /* Firefox */
+  -webkit-column-count:3; /* Safari and Chrome */
+  column-count:3;
+  padding-left: 10px;
+  padding-right: 10px; 
+}
+
+/* Fixed Panel */
+
+.fixedPanelMainText
+{
+  padding-top: 50px;
+}
+
+.fixedPanel
+{
+  position: fixed;
+  top: 0;
+  left: 30px;
+  padding: 10px;
+  
+  width: 550px;
+  border-bottom: 3px solid #D3DCF2;
+  background-color: #f3f3f3;
+}
+
+.nextTopicLink
+{
+  float: right;
+}
+
+.seeAlso
+{
+  color: #06266f;
+  font-size:24px;
+}
+
+.seeAlsoList
+{
+  padding-left: 20px; 
+}
+
+/* Embedded Video */
+
+.embeddedVideo
+{
+  margin-left: 50px;
+  margin-bottom: 10px;
+}
+
+/* Tutorials */
+
+.tutorialNavBar
+{
+  padding: 5px;
+  font-family:'PTSansNarrowRegular', sans-serif;
+  background-color: #f3f3f3;
+  border-left: 5px solid #d3dcf2;  
+} 
+
+.tutorialNavLink
+{
+  font-family:'PTSansNarrowRegular', sans-serif;
+} 
+
+/* FAQ */
+
+.faqQuestion
+{
+  font-weight: bold;
+  font-style: italic;
+  color: #412c84;
+}
+
+.faqQuestionText
+{
+  font-style: italic;
+  background-color: #efefef;
+  border-left: 5px solid #a7bae6;
+  padding-left: 15px;  
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.faqAnswer
+{
+  color: #412c84;
+  font-weight: bold;
+}

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel='stylesheet' type='text/css' href='../Styles/Blueprint_Styles/Style.css' />
+    <script src='../Scripts/Blueprint_Scripts/Script.js' type='text/javascript'></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/github.min.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style type="text/css">
+        .syntaxhighlighter {
+            overflow-y: hidden !important;
+            overflow-x: auto !important;
+        }
+    </style>
+    <title>EasyWSDL - Tips & tricks</title>
+</head>
+<body>
+
+    <h2 id="basicAuthentication">Basic authentication</h2>
+
+    <p>
+        To implement a Basic authentication, you have to add a special http header to your service (before you invoke any methods). Here you have an example how to do this:
+    </p>
+    <pre>
+    <codeGenerator class="java">
+NVMKPSPublicSoap service = new NVMKPSPublicSoap();
+service.httpHeaders.add(new HeaderProperty("Authorization", "Basic " +
+org.kobjects.base64.Base64.encode("user:password".getBytes())));
+service.TCKimlikNoDogrula();
+
+        </codeGenerator>
+        </pre>
+    <br />
+    <br />
+    <h2 id="anyCollection">How to use any collection?</h2>
+    <p>
+        Some web services use &lt;any&gt; element to return/retrieve any type of data. The schema (structure) of these data is unknown so EasyWSDL are not able to generate a strongly typed
+        fields for them. Instead, there is one field any which is a collection of PropertyInfo objects and using it you can still retrieve or send such data in a raw format.
+        <strong>You can also add any collection to all generated classes by selecting <i>Generate All classes</i> in generator settings</strong>.
+        Use this feature only if you find that some elements are missing in the generated classes.
+        <br />
+        <br />
+        Here you will find example how to retrieve and send data using any collection.
+    </p>
+
+    <pre>
+    <codeGenerator class="xml">
+&lt;n4:SearchGroups xmlns:n4="http://namespace.url/IBodyArchitectAccessService/"&gt;
+    &lt;n5:ExerciseSearchCriteriaGroup xmlns:n5="http://schemas.datacontract.org/2004/07/BodyArchitect.Service.V2.Model"&gt;
+        Global
+    &lt;/n5:ExerciseSearchCriteriaGroup&gt;
+&lt;/n4:SearchGroups&gt;
+        </codeGenerator>
+</pre>
+    <br />
+    <br />
+    <h4>Sending custom value</h4>
+    <pre>
+    <codeGenerator class="java">
+PartialRetrievingInfo info=new PartialRetrievingInfo();
+ExerciseSearchCriteria exerciseSearchCriteria = new ExerciseSearchCriteria();
+exerciseSearchCriteria.ExerciseTypes=new ArrayOfExerciseType();
+
+//begin of creating data for any collection
+PropertyInfo exerciseTypeAny = new PropertyInfo();
+exerciseTypeAny.name="SearchGroups";
+exerciseTypeAny.namespace="http://namespace.url/IBodyArchitectAccessService/";
+SoapObject obj = new SoapObject("http://schemas.datacontract.org/2004/07/BodyArchitect.Service.V2.Model","ExerciseSearchCriteriaGroup");
+exerciseTypeAny.setValue(obj);
+
+PropertyInfo inner = new PropertyInfo();
+inner.name="ExerciseSearchCriteriaGroup";
+inner.namespace="http://schemas.datacontract.org/2004/07/BodyArchitect.Service.V2.Model";
+inner.type= PropertyInfo.STRING_CLASS;
+inner.setValue("Global");
+obj.addProperty(inner);
+exerciseSearchCriteria.any.add(exerciseTypeAny);
+//end
+
+PagedResultOfExerciseDTO5oAtqRlh exercises = service.GetExercises(sessionData.Token, exerciseSearchCriteria, info);
+        </codeGenerator>
+</pre>
+    <h4>Retrieving custom value</h4>
+<pre>
+    <codeGenerator class="java">
+ProfileInformationDTO profileInfo=service.GetProfileInformation(sessionData.Token, criteria);
+for (PropertyInfo info : profileInfo.any)
+{
+  if(info.name.equals("Name"))
+  {
+    Object value=info.getValue();
+  }
+  else if(info.name.equals("Age"))
+  {
+    //...
+  }
+}
+        </codeGenerator>
+</pre>
+    
+<p>In the latest generator we have introduced a feature to detect a strong types in <codeGenerator>any</codeGenerator> collections. To use this option, you have to set <codeGenerator>CreateClassesForAny</codeGenerator> property in you service class:</p>
+<pre><codeGenerator class="java">service.CreateClassesForAny=true;</codeGenerator></pre>
+<p>With this option, you should find your objects instead of raw <codeGenerator>SoapObject</codeGenerator> in <codeGenerator>any</codeGenerator> collection.</p>
+<div class="warningBox">
+    <h4>Important</h4>
+    If you still have raw <codeGenerator>SoapObject</codeGenerator> objects in <codeGenerator>any</codeGenerator> collection, you should generate classes with option <strong>Advanced settings -> Generate All classes</strong>.
+</div>
+<br />
+    <br />
+    <h2 id="bestPractices">Best practices</h2>
+    <p>
+        Sometimes you need to modify generated classes. The recommended way of doing it is to create a new class inherits from the generated class and make changes there (if possible of course). Using this you can easly regenerate
+        classes again without loosing your modifications.
+    </p>
+    <p>Here you find an example how to configure internal ksoap2 Transport class in your service class</p>
+
+    <pre>
+    <codeGenerator class="java">
+public class MyService extends NVMKPSPublicSoap
+{
+    @Override
+    protected Transport createTransport() {
+    	//changing transport to HttpsTransportSE
+        Transport transport= new HttpsTransportSE(Proxy.NO_PROXY,url,500,"",timeOut);
+        transport.debug=true;
+        return transport;
+    }
+    @Override
+    protected ExtendedSoapSerializationEnvelope createEnvelope() {
+    	//configure envelope
+        ExtendedSoapSerializationEnvelope envelope= super.createEnvelope();
+        envelope.dotNet=true;
+        envelope.implicitTypes=false;
+        return envelope;
+    }
+    @Override
+    protected void sendRequest(String methodName, ExtendedSoapSerializationEnvelope envelope, Transport transport) throws Exception {
+        try{
+       	//here we want to print to output requestDump and responseDump after sending request to the server
+            super.sendRequest(methodName, envelope, transport);
+        }
+        catch (Exception e) {
+            throw e;
+        } finally {
+            if (transport.debug) {
+                if (transport.requestDump != null) {
+                    System.err.println(transport.requestDump);
+                }
+                if (transport.responseDump != null) {
+                    System.err.println(transport.responseDump);
+                }
+            }
+        }
+    }
+}
+        </codeGenerator>
+</pre>
+    <p>Now to connect to your web service you should use MyService class instead of NVMKPSPublicSoap.</p>
+
+<br />
+<br />
+<h2 id="cookieManagement">How to set a cookie from the response (cookie management)?</h2>
+<p>
+    The easiest way is to maintain a cookies between requests is to use CookieManager class. Basically put these two lines at the start of your application
+</p>
+
+<pre>
+    <codeGenerator class="java">
+    CookieManager cookieManager = new CookieManager();
+    CookieHandler.setDefault(cookieManager);
+    </codeGenerator>
+</pre>
+
+<br />
+<br />
+<h2 id="dateTimeManagement">How to create custom Date/Time handler?</h2>
+<p>
+    If you find that easyWSDL classes handle date/time in a wrong way, you can create a custom provider. First step is to create a converter class, where you could override one or more methods:
+</p>
+
+<pre>
+    <codeGenerator class="java">
+    public class MyCustomDateConverter extends StandardDateTimeConverter
+    {
+        @Override
+        public DateTime convertDateTime(String strDate) {
+            DateTimeFormatter parser1 = ISODateTimeFormat.dateTimeNoMillis();
+            return parser1.parseDateTime(strDate);
+        }
+    }
+    </codeGenerator>
+</pre>
+<p>
+    Next is to create an instance of this class and set it into NVMExtendedSoapSerializationEnvelope. You need to do this before you connect to your webservice.
+</p>
+<pre>
+    <codeGenerator class="java">
+    MyCustomDateConverter converter = new MyCustomDateConverter();
+    ExtendedSoapSerializationEnvelope.setDateTimeConverter(converter);
+    </codeGenerator>
+</pre>
+</body>
+
+</html>
+
