@@ -21,7 +21,7 @@ public class VerificationCodesController {
         this.verificationCodeService = verificationCodeService;
     }
 
-    @PostMapping("/verify-candidate/{uuid}/{code}")
+    @GetMapping("/verify-candidate/{uuid}/{code}")
     public Result confirmCandidate(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
         DataResult<VerificationCode> result = verificationCodeService.findByUserUuid(uuid);
         if(!result.isSuccess()){

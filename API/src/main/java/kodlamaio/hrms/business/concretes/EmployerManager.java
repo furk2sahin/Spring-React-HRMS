@@ -54,8 +54,10 @@ public class EmployerManager implements EmployerService {
             );
             VerificationCode verificationCode = addVerificationCode(employer);
             sendMail(employer.getEmail(),
-                    "Please verify your email using code : " +
-                            verificationCode.getCode());
+                    "Please verify your email using code : http://localhost:8080/api/v1/verification-code/verify-candidate/" +
+                            dataResult.getData().getUuid() + "/"
+                            +verificationCode.getCode()
+            );
             return dataResult;
         } else {
             return new ErrorDataResult<>(result.getMessage());
