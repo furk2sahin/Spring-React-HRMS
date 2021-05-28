@@ -1,6 +1,7 @@
 package kodlamaio.hrms.model.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import kodlamaio.hrms.model.abstracts.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "system_personnel")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","employerVerifies"})
 public class SystemPersonnel extends User {
 
     @NotBlank(message = "Name cannot be empty.")
@@ -27,7 +29,6 @@ public class SystemPersonnel extends User {
     private String surname;
 
     @OneToMany(mappedBy = "systemPersonnel")
-    @JsonIgnore
     private List<EmployerVerify> employerVerifies;
 
 }

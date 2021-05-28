@@ -1,12 +1,10 @@
 package kodlamaio.hrms.model.concretes;
 
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.sql.Date;
 import java.util.UUID;
 
 @Data
@@ -25,7 +23,4 @@ public class JobPosition {
 
     @Column(updatable = false, unique = true)
     private UUID uuid = UUID.randomUUID();
-
-    @CreationTimestamp
-    private Date creationDate;
 }

@@ -18,7 +18,9 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "name", length = 20, unique = true, updatable = false)
+    @Column(name = "name", unique = true, updatable = false)
     private String name;
-    
+
+    @OneToMany(mappedBy = "city")
+    private List<JobAdvertise> jobAdvertises;
 }
