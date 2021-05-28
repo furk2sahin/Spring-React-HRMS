@@ -1,7 +1,5 @@
 package kodlamaio.hrms.model.abstracts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import kodlamaio.hrms.model.concretes.VerificationCode;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.util.Calendar;
 import java.util.UUID;
 
 @Entity
@@ -26,8 +24,9 @@ public abstract class User {
     private UUID uuid = UUID.randomUUID();
 
     @CreationTimestamp
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(updatable = false)
-    private Date creationDate;
+    private Calendar creationDate;
 
     @Email(message = "Wrong email format")
     @Column(unique = true, nullable = false)

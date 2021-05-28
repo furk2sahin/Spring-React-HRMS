@@ -27,10 +27,11 @@ public class Candidate extends User {
     @Size(min = 3, max = 50, message = "Surname length should be between 3 and 50.")
     private String surname;
 
-    @NotBlank(message = "National identity cannot be empty.")
     @Column(nullable = false, length = 11, unique = true)
+    @NotBlank(message = "National identity cannot be empty.")
     @Size(min = 11, max = 11, message = "National identity length must be 11.")
-    @Pattern(regexp = "(^[1-9][0-9]*$)|(^\\d{10}$)", message = "National identity can't start with 0 or contain text.")
+    @Pattern(regexp = "^[1-9]{1}[0-9]{9}[02468]{1}$",
+            message = "National identity can't start with 0 or contain text.")
     private String nationalIdentity;
 
     @Column(nullable = false)

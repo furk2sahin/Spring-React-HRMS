@@ -33,7 +33,8 @@ public class Employer extends User {
     @NotBlank(message = "Phone number cannot be empty.")
     @Column(nullable = false)
     @Size(min = 10, max = 10, message = "Phone number length should be 10. For example 53xxxxxxxx.")
-    @Pattern(regexp = "(^[1-9][0-9]*$)|(^\\d{10}$)", message = "Phone can't start with 0 or contain text.")
+    @Pattern(regexp = "/^(0)([0-9]{3})\\s?([0-9]{3})\\s?([0-9]{2})\\s?([0-9]{2})$/",
+            message = "Phone can't start with 0 or contain text.")
     private String phone;
 
     @OneToOne(mappedBy = "employer")

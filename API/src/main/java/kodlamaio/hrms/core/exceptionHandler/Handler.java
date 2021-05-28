@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class Handler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         return new ResponseEntity<>(new ErrorResult(ex.getBindingResult().getFieldError().getDefaultMessage()),
                 HttpStatus.NOT_ACCEPTABLE);
     }
@@ -37,5 +36,4 @@ public class Handler {
         return new ResponseEntity<>(new ErrorResult(ex.getMessage()),
                 HttpStatus.NOT_ACCEPTABLE);
     }
-
 }

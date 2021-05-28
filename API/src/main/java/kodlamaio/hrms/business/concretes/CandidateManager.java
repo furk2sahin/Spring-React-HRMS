@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,6 +47,11 @@ public class CandidateManager implements CandidateService {
 
     @Override
     public DataResult<Candidate> add(Candidate candidate) {
+        if(candidate.getBirthDate() == null){
+            return new ErrorDataResult(
+                    "BirthDate cannot be null."
+            );
+        }
         Result result = ResultChecker.check(Arrays.asList(
                 checkIfEmailExists(candidate.getEmail()),
                 checkIfNationalIdentityExists(candidate.getNationalIdentity()),
