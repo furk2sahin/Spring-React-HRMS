@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 @Service
 public class EmployerVerifyManager implements EmployerVerifyService {
@@ -34,7 +35,9 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         Result result = ResultChecker.check(Arrays.asList(
                 checkIfEmployerVerifyExists(employerVerify),
                 checkIfSystemPersonnelExists(systemPersonnel),
-                checkIfEmployerAlreadyVerified(employerUuid)
+                checkIfEmployerAlreadyVerified(employerUuid),
+                checkIfUuidValid(employerUuid, "Employer"),
+                checkIfUuidValid(systemPersonnelUuid, "System personnel")
         ));
 
         if(result.isSuccess()){
@@ -68,6 +71,16 @@ public class EmployerVerifyManager implements EmployerVerifyService {
     private Result checkIfEmployerAlreadyVerified(UUID uuid){
         if(employerVerifyDao.existsByEmployerUuidAndVerifiedTrue(uuid)){
             return new ErrorDataResult<>("This employer already verified.");
+        } else {
+            return new SuccessResult();
+        }
+    }
+
+    private Result checkIfUuidValid(UUID uuid, String person){
+        String regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
+        Pattern pattern = Pattern.compile(regexp);
+        if(!pattern.matcher(uuid.toString()).matches()){
+            return new ErrorDataResult(person + " UUID not valid.");
         } else {
             return new SuccessResult();
         }

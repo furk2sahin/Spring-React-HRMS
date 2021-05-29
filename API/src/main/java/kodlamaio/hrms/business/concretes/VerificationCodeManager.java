@@ -46,16 +46,13 @@ public class VerificationCodeManager implements VerificationCodeService {
             code.setConfirmed(true);
             verificationCodeDao.save(code);
             Employer employer = employerDao.findByUuid(code.getUser().getUuid()).orElse(null);
-            if(employer == null){
-                return new SuccessResult("Thank you for confirming your account! ");
-            } else{
-                EmployerVerify employerVerify = new EmployerVerify();
-                employerVerify.setEmployer(employer);
-                employerVerify.setVerified(false);
-                employerVerifyDao.save(employerVerify);
-                return new SuccessResult("Thank you for confirming your account! " +
+            EmployerVerify employerVerify = new EmployerVerify();
+            employerVerify.setEmployer(employer);
+            employerVerify.setVerified(false);
+            employerVerifyDao.save(employerVerify);
+            return new SuccessResult("Thank you for confirming your account! " +
                         "Please contact system personnel to verify your account!");
-            }
+
         } else{
             return new ErrorResult("Your verification code did not match.");
         }

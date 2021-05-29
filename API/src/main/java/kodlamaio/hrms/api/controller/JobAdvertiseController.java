@@ -1,5 +1,6 @@
 package kodlamaio.hrms.api.controller;
 
+import io.swagger.annotations.ApiOperation;
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.JobAdvertise;
@@ -22,38 +23,61 @@ public class JobAdvertiseController {
     }
 
     @GetMapping("/findAllByActiveTrue")
-    DataResult<List<JobAdvertise>> findAllByActiveTrue(){
+    public DataResult<List<JobAdvertise>> findAllByActiveTrue(){
         return jobAdvertiseService.findAllByActiveTrue();
     }
 
     @PostMapping("/add")
-    DataResult<JobAdvertise> add(@RequestBody @Valid JobAdvertise jobAdvertise){
-        return jobAdvertiseService.add(jobAdvertise);
+    public DataResult<JobAdvertise> add(@RequestBody @Valid JobAdvertise jobAdvertise,
+                                        @RequestParam("expiryInDays") int expiryInDays){
+        return jobAdvertiseService.add(jobAdvertise, expiryInDays);
     }
 
+    @ApiOperation(value = "sortId=1 -> sort BY_CREATE_DATE_DESC ----- " +
+            "sortId=2 -> sort BY_CREATE_DATE_ASC ----- " +
+            "sortId=3 -> for sort BY_MAX_SALARY_DESC ----- " +
+            "sortId=4 -> for sort BY_MAX_SALARY_ASC ----- " +
+            "sortId=5 -> for sort BY_MIN_SALARY_DESC ----- " +
+            "sortId=6 -> for sort BY_MIN_SALARY_ASC ----- " +
+            "sortId=7 -> for sort BY_EXPIRATION_DATE_DESC ----- " +
+            "sortId=8 -> for sort BY_EXPIRATION_DATE_ASC")
     @GetMapping("/findAllSorted")
-    DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(@RequestParam("sortId") int sortId){
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(@RequestParam("sortId") int sortId){
         return jobAdvertiseService.findAllByActiveTrueSorted(sortId);
     }
 
     @GetMapping("/findAllByEmployerUuid")
-    DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployerUuid(@RequestParam("uuid") UUID uuid){
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployerUuid(@RequestParam("uuid") UUID uuid){
         return jobAdvertiseService.findAllByActiveTrueAndEmployerUuid(uuid);
     }
 
     @GetMapping("/findAllByCityId")
-    DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(@RequestParam("id") Long id){
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(@RequestParam("id") Long id){
         return jobAdvertiseService.findAllByActiveTrueAndCityId(id);
     }
 
     @GetMapping("/findAllByJobPositionId")
-    DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(@RequestParam("id") Long id){
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(@RequestParam("id") Long id){
         return jobAdvertiseService.findAllByActiveTrueAndJobPositionId(id);
     }
 
     @GetMapping("/findAllByCompanyNameContains")
-    DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(
             @RequestParam("name") String name){
         return jobAdvertiseService.findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(name);
     }
+
+    @GetMapping("/findAllByActiveTruePaged")
+    public DataResult<List<JobAdvertise>> findAllByActiveTruePaged(@RequestParam("pageNumber") int pageNumber,
+                                                                   @RequestParam("pageSize") int pageSize){
+        return jobAdvertiseService.findAllByActiveTruePaged(pageNumber, pageSize);
+    }
+
+
+    @PutMapping("/updateStatus")
+    public DataResult<JobAdvertise> update(@RequestParam("id") Long id,
+                                           @RequestParam("active") boolean active){
+        return jobAdvertiseService.update(id, active);
+    }
+
 }

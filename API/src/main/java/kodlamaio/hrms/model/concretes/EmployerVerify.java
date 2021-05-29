@@ -4,7 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,6 +19,7 @@ public class EmployerVerify {
     private boolean verified;
 
     @UpdateTimestamp
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(insertable = false)
     private Date confirmDate;
 
