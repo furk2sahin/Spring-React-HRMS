@@ -26,7 +26,8 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<JobAdvertise> add(JobAdvertise jobAdvertise) {
-        return null;
+        // need more operations here
+        return new SuccessDataResult<>(jobAdvertiseDao.save(jobAdvertise), "Data added successfully");
     }
 
     @Override
@@ -37,6 +38,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(int sortId) {
+        // need more operations here
         JobAdvertiseSort[] jobAdvertiseSorts = JobAdvertiseSort.values(); // return JobAdvertiseSort enum array
         JobAdvertiseSort jobAdvertiseSort = jobAdvertiseSorts[sortId-1]; // take one that equals sortId
         Sort sort = Sort.by(jobAdvertiseSort.getDirection(), jobAdvertiseSort.getProperty()); // Create sort with enum
@@ -49,6 +51,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployerUuid(UUID uuid) {
+        // ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$ // use this pattern for uuid check
         List<JobAdvertise> jobAdvertises = jobAdvertiseDao.findAllByActiveTrueAndEmployerUuid(uuid);
         if(jobAdvertises.isEmpty()){
             return new ErrorDataResult<>(jobAdvertises, "No Job Advertises found for given uuid.");
