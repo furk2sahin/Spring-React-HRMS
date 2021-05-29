@@ -20,7 +20,4 @@ public class JobPosition {
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 255, message = "Job name length should between 3-255.")
     private String jobName;
-
-    @Column(updatable = false, unique = true)
-    private UUID uuid = UUID.randomUUID();
 }

@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @Entity
@@ -22,10 +22,13 @@ public class VerificationCode {
     private boolean confirmed;
 
     @CreationTimestamp
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(updatable = false)
     private Date creationDate;
 
     @UpdateTimestamp
     @Column(insertable = false)
+    @Temporal(value = TemporalType.TIMESTAMP)
     private Date confirmDate;
 
     @OneToOne
