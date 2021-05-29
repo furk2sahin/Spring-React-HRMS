@@ -6,7 +6,6 @@ import kodlamaio.hrms.core.adapter.abstracts.EmailService;
 import kodlamaio.hrms.core.adapter.abstracts.UserCheckService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
-import kodlamaio.hrms.model.abstracts.User;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import kodlamaio.hrms.repositories.CandidateDao;
 import kodlamaio.hrms.model.concretes.Candidate;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @Service

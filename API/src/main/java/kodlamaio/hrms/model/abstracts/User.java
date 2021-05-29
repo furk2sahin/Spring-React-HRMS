@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +26,7 @@ public abstract class User {
     @CreationTimestamp
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(updatable = false)
-    private Calendar creationDate;
+    private Date creationDate;
 
     @Email(message = "Wrong email format")
     @Column(unique = true, nullable = false)
