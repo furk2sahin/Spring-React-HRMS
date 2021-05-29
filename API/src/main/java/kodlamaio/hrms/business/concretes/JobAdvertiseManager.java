@@ -1,6 +1,7 @@
 package kodlamaio.hrms.business.concretes;
 
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
+import kodlamaio.hrms.core.enums.JobAdvertiseSort;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
@@ -35,10 +36,15 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     }
 
     @Override
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueSorted() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "createDate");
-        return new SuccessDataResult(jobAdvertiseDao.findAllByActiveTrue(sort),
-                "Data listed by created date descending order.");
+    public DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(int sortId) {
+        JobAdvertiseSort[] jobAdvertiseSorts = JobAdvertiseSort.values(); // return JobAdvertiseSort enum array
+        JobAdvertiseSort jobAdvertiseSort = jobAdvertiseSorts[sortId-1]; // take one that equals sortId
+        Sort sort = Sort.by(jobAdvertiseSort.getDirection(), jobAdvertiseSort.getProperty()); // Create sort with enum
+
+        return new SuccessDataResult(
+                jobAdvertiseDao.findAllByActiveTrue(sort),
+                "Data listed " + jobAdvertiseSort.name()
+        );
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface JobAdvertiseService {
     DataResult<JobAdvertise> add(JobAdvertise jobAdvertise);
     DataResult<List<JobAdvertise>> findAllByActiveTrue();
-    DataResult<List<JobAdvertise>> findAllByActiveTrueSorted();
+    DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(int sortId);
     DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployerUuid(UUID uuid);
     DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(Long id);
     DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(Long id);
