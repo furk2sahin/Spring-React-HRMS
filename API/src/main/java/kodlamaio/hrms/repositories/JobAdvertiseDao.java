@@ -5,12 +5,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface JobAdvertiseDao extends JpaRepository<JobAdvertise, Long> {
     List<JobAdvertise> findAllByActiveTrue();
     List<JobAdvertise> findAllByActiveTrue(Sort sort);
-    List<JobAdvertise> findAllByEmployerId(Long id);
-    List<JobAdvertise> findAllByCityId(Long id);
-    List<JobAdvertise> findAllByJobPositionId(Long id);
-    List<JobAdvertise> findAllByEmployer_CompanyNameContainsIgnoreCase(String companyName);
+    List<JobAdvertise> findAllByActiveTrueAndEmployerUuid(UUID uuid);
+    List<JobAdvertise> findAllByActiveTrueAndCityId(Long id);
+    List<JobAdvertise> findAllByActiveTrueAndJobPositionId(Long id);
+    List<JobAdvertise> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(String companyName);
 }
