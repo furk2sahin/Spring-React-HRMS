@@ -1,5 +1,6 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.BusinessRule;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
 import kodlamaio.hrms.core.adapter.abstracts.EmailService;
@@ -45,8 +46,8 @@ public class EmployerManager implements EmployerService {
     public DataResult<Employer> add(Employer employer) {
         Result result = ResultChecker.check(Arrays.asList(
                 checkIfEmailExists(employer.getEmail()),
-                checkIfEmailContainsWebSiteDomain(employer.getEmail(), employer.getWebAddress()),
-                checkIfPasswordsMatch(employer.getPassword(), employer.getPasswordCheck())
+                BusinessRule.checkIfEmailContainsWebSiteDomain(employer.getEmail(), employer.getWebAddress()),
+                BusinessRule.checkIfPasswordsMatch(employer.getPassword(), employer.getPasswordCheck())
         ));
 
         if(result.isSuccess()){
@@ -68,23 +69,13 @@ public class EmployerManager implements EmployerService {
 
     @Override
     public DataResult<List<Employer>> getAllPaged(int pageNo, int pageSize) {
-        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        DataResult result = BusinessRule.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
             return new SuccessDataResult<>(employerDao.findAll(pageable).getContent(),
                     "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
         } else {
             return result;
-        }
-    }
-
-    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
-        if(pageSize < 1){
-            return new ErrorDataResult<>("Page size is not valid.");
-        } else if(pageNo < 1){
-            return new ErrorDataResult<>("Page number is not valid.");
-        } else {
-            return new SuccessDataResult<>();
         }
     }
 
@@ -100,26 +91,6 @@ public class EmployerManager implements EmployerService {
         if(userDao.existsByEmail(email)){
             return new ErrorResult(
                     "This email already taken."
-            );
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfEmailContainsWebSiteDomain(String email, String website){
-        if(!email.split("@")[1].contains(website)){
-            return new ErrorResult(
-                    "This email does not contain web site's domain."
-            );
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfPasswordsMatch(String password, String passwordCheck){
-        if(!password.equals(passwordCheck)) {
-            return new ErrorResult(
-                    "Passwords did not match."
             );
         } else {
             return new SuccessResult();

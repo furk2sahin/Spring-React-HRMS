@@ -1,5 +1,6 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.BusinessRule;
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
 import kodlamaio.hrms.core.enums.JobAdvertiseSort;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
@@ -31,12 +32,12 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     @Override
     public DataResult<JobAdvertise> add(JobAdvertise jobAdvertise, int expiryInDays) {
         Result result = ResultChecker.check(Arrays.asList(
-                checkIfCityIdValid(jobAdvertise.getCity().getId()),
-                checkIfJobIdValid(jobAdvertise.getJobPosition().getId()),
-                checkIfEmployerIdValid(jobAdvertise.getEmployer().getId()),
-                checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
-                checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
-                checkIfExpiryDayValid(expiryInDays)
+                BusinessRule.checkIfCityIdValid(jobAdvertise.getCity().getId()),
+                BusinessRule.checkIfJobIdValid(jobAdvertise.getJobPosition().getId()),
+                BusinessRule.checkIfEmployerIdValid(jobAdvertise.getEmployer().getId()),
+                BusinessRule.checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
+                BusinessRule.checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
+                BusinessRule.checkIfExpiryDayValid(expiryInDays)
         ));
 
         if(result.isSuccess()){
@@ -88,7 +89,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(Long id) {
-        DataResult result = checkIfIdValid(id);
+        DataResult result = BusinessRule.checkIfIdValid(id);
         if(!result.isSuccess()){
             return result;
         }
@@ -102,7 +103,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(Long id) {
-        DataResult result = checkIfIdValid(id);
+        DataResult result = BusinessRule.checkIfIdValid(id);
         if(!result.isSuccess()){
             return result;
         }
@@ -127,7 +128,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTruePaged(int pageNumber, int pageSize) {
-        DataResult dataResult = checkIfPageNoAndPageSizeValid(pageNumber, pageSize);
+        DataResult dataResult = BusinessRule.checkIfPageNoAndPageSizeValid(pageNumber, pageSize);
         if(dataResult.isSuccess()){
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
             return new SuccessDataResult<>(
@@ -149,77 +150,6 @@ public class JobAdvertiseManager implements JobAdvertiseService {
             return new ErrorDataResult<>("Already " + active);
         } else {
             return new SuccessDataResult<>("Job status successfully turned to " + active);
-        }
-    }
-
-
-    private DataResult<Object> checkIfIdValid(Long id){
-        if(id < 1){
-            return new ErrorDataResult<>("Id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfCityIdValid(Long id){
-        if(id < 1 || id > 81){
-            return new ErrorDataResult<>("City id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfJobIdValid(Long id){
-        if(id < 1){
-            return new ErrorDataResult<>("Job id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfEmployerIdValid(Long id){
-        if(id < 1){
-            return new ErrorDataResult<>("Employer id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfSalariesValid(int maxSalary, int minSalary){
-        if(maxSalary < 1){
-            return new ErrorDataResult<>("max salary is not valid.");
-        } else if(minSalary < 1){
-            return new ErrorDataResult<>("min salary is not valid.");
-        } else if(maxSalary < minSalary){
-            return new ErrorDataResult<>("min salary cannot be greater than max salary.");
-        } else{
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfOpenPositionValid(int id){
-        if(id < 1){
-            return new ErrorDataResult<>("Job id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfExpiryDayValid(int id){
-        if(id < 1){
-            return new ErrorDataResult<>("Expiry Day is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
-        if(pageSize < 1){
-            return new ErrorDataResult<>("Page size is not valid.");
-        } else if(pageNo < 1){
-            return new ErrorDataResult<>("Page number is not valid.");
-        } else {
-            return new SuccessDataResult<>();
         }
     }
 }

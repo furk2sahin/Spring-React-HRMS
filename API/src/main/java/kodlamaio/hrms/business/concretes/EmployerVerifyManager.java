@@ -1,5 +1,6 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.BusinessRule;
 import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 @Service
 public class EmployerVerifyManager implements EmployerVerifyService {
@@ -33,11 +33,11 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         SystemPersonnel systemPersonnel = systemPersonnelDao.findByUuid(systemPersonnelUuid).orElse(null);
 
         Result result = ResultChecker.check(Arrays.asList(
-                checkIfEmployerVerifyExists(employerVerify),
-                checkIfSystemPersonnelExists(systemPersonnel),
+                BusinessRule.checkIfEmployerVerifyExists(employerVerify),
+                BusinessRule.checkIfSystemPersonnelExists(systemPersonnel),
                 checkIfEmployerAlreadyVerified(employerUuid),
-                checkIfUuidValid(employerUuid, "Employer"),
-                checkIfUuidValid(systemPersonnelUuid, "System personnel")
+                BusinessRule.checkIfUuidValid(employerUuid, "Employer"),
+                BusinessRule.checkIfUuidValid(systemPersonnelUuid, "System personnel")
         ));
 
         if(result.isSuccess()){
@@ -52,35 +52,9 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         }
     }
 
-    private Result checkIfEmployerVerifyExists(EmployerVerify employerVerify){
-        if(employerVerify == null){
-            return new ErrorDataResult<>("This employer uuid does not match with any user.");
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfSystemPersonnelExists(SystemPersonnel systemPersonnel){
-        if(systemPersonnel == null) {
-            return new ErrorDataResult<>("This system personnel uuid does not match with any user.");
-        } else {
-            return new SuccessResult();
-        }
-    }
-
     private Result checkIfEmployerAlreadyVerified(UUID uuid){
         if(employerVerifyDao.existsByEmployerUuidAndVerifiedTrue(uuid)){
             return new ErrorDataResult<>("This employer already verified.");
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfUuidValid(UUID uuid, String person){
-        String regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
-        Pattern pattern = Pattern.compile(regexp);
-        if(!pattern.matcher(uuid.toString()).matches()){
-            return new ErrorDataResult(person + " UUID not valid.");
         } else {
             return new SuccessResult();
         }

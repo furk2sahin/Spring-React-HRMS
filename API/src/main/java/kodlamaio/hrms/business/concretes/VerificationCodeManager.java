@@ -68,5 +68,4 @@ public class VerificationCodeManager implements VerificationCodeService {
             return new SuccessDataResult<>(code, "Code found!");
         }
     }
-
 }

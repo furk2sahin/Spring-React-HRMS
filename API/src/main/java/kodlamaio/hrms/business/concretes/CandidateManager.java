@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+import static kodlamaio.hrms.business.BusinessRule.checkIfPageNoAndPageSizeValid;
+import static kodlamaio.hrms.business.BusinessRule.checkIfPasswordsMatch;
+
 @Service
 public class CandidateManager implements CandidateService {
 
@@ -92,16 +95,6 @@ public class CandidateManager implements CandidateService {
         }
     }
 
-    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
-        if(pageSize < 1){
-            return new ErrorDataResult<>("Page size is not valid.");
-        } else if(pageNo < 1){
-            return new ErrorDataResult<>("Page number is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
     private VerificationCode addVerificationCode(Candidate candidate){
         return verificationCodeService.add(candidate);
     }
@@ -134,16 +127,6 @@ public class CandidateManager implements CandidateService {
         if(!userCheckService.validate(nationalIdentity, name, surname, year)) {
             return new ErrorResult(
                     "User information was incorrect."
-            );
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfPasswordsMatch(String password, String passwordCheck){
-        if(!password.equals(passwordCheck)) {
-            return new ErrorResult(
-                    "Passwords did not match."
             );
         } else {
             return new SuccessResult();
