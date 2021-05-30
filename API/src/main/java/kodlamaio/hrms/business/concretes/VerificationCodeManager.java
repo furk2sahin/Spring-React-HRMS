@@ -1,14 +1,13 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
 import kodlamaio.hrms.core.utilities.codegenerator.CodeGenerator;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.model.abstracts.User;
 import kodlamaio.hrms.model.concretes.Employer;
-import kodlamaio.hrms.model.concretes.EmployerVerify;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import kodlamaio.hrms.repositories.EmployerDao;
-import kodlamaio.hrms.repositories.EmployerVerifyDao;
 import kodlamaio.hrms.repositories.VerificationCodeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +19,15 @@ public class VerificationCodeManager implements VerificationCodeService {
 
     private final VerificationCodeDao verificationCodeDao;
     private final EmployerDao employerDao;
-    private final EmployerVerifyDao employerVerifyDao;
+    private final EmployerVerifyService employerVerifyService;
 
     @Autowired
     public VerificationCodeManager(VerificationCodeDao verificationCodeDao,
                                    EmployerDao employerDao,
-                                   EmployerVerifyDao employerVerifyDao) {
+                                   EmployerVerifyService employerVerifyService) {
         this.verificationCodeDao = verificationCodeDao;
         this.employerDao = employerDao;
-        this.employerVerifyDao = employerVerifyDao;
+        this.employerVerifyService = employerVerifyService;
     }
 
     @Override
@@ -41,15 +40,12 @@ public class VerificationCodeManager implements VerificationCodeService {
     }
 
     @Override
-    public Result update(VerificationCode code, String verificationCode) {
+    public Result confirm(VerificationCode code, String verificationCode) {
         if(code.getCode().equals(verificationCode)){
             code.setConfirmed(true);
             verificationCodeDao.save(code);
             Employer employer = employerDao.findByUuid(code.getUser().getUuid()).orElse(null);
-            EmployerVerify employerVerify = new EmployerVerify();
-            employerVerify.setEmployer(employer);
-            employerVerify.setVerified(false);
-            employerVerifyDao.save(employerVerify);
+            employerVerifyService.add(employer);
             return new SuccessResult("Thank you for confirming your account! " +
                         "Please contact system personnel to verify your account!");
 

@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.BusinessRule;
 import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.model.concretes.Employer;
 import kodlamaio.hrms.model.concretes.EmployerVerify;
 import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import kodlamaio.hrms.repositories.EmployerVerifyDao;
@@ -25,6 +26,14 @@ public class EmployerVerifyManager implements EmployerVerifyService {
                                  SystemPersonnelDao systemPersonnelDao) {
         this.employerVerifyDao = employerVerifyDao;
         this.systemPersonnelDao = systemPersonnelDao;
+    }
+
+    @Override
+    public DataResult<EmployerVerify> add(Employer employer) {
+        EmployerVerify employerVerify = new EmployerVerify();
+        employerVerify.setEmployer(employer);
+        employerVerify.setVerified(false);
+        return new SuccessDataResult<>(employerVerifyDao.save(employerVerify));
     }
 
     @Override

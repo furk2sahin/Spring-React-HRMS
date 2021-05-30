@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface VerificationCodeService {
     VerificationCode add(User user);
     DataResult<VerificationCode> findByUserUuid(UUID uuid);
-    Result update(VerificationCode code, String verificationCode);
+    Result confirm(VerificationCode code, String verificationCode);
 }

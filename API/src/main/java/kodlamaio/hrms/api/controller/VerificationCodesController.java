@@ -21,7 +21,7 @@ public class VerificationCodesController {
         this.verificationCodeService = verificationCodeService;
     }
 
-    @GetMapping("/verify/{uuid}/{code}")
+    @GetMapping("/confirm/{uuid}/{code}")
     public Result confirm(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
         DataResult<VerificationCode> result = verificationCodeService.findByUserUuid(uuid);
         if(!result.isSuccess()){
@@ -29,7 +29,7 @@ public class VerificationCodesController {
         } else if(result.getData().isConfirmed()){
             return new ErrorResult("Your account already confirmed.");
         } else{
-            return verificationCodeService.update(result.getData(), verificationCode);
+            return verificationCodeService.confirm(result.getData(), verificationCode);
         }
     }
 }
