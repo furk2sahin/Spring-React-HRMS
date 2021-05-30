@@ -1,3 +1,4 @@
-# DAY 7 HOMEWORK 3
+#  Swagger UI
 
-![output](output/Day7Homework3.png)
+![output](output/swagger1.png)
+![output](output/swagger2.png)
