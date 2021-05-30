@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/job-positions")
 public class JobPositionsController {
 
-    private JobPositionService jobPositionService;
+    private final JobPositionService jobPositionService;
 
     @Autowired
     public JobPositionsController(JobPositionService jobPositionService){
@@ -34,5 +34,11 @@ public class JobPositionsController {
     @PostMapping("/add-job-position")
     public ResponseEntity<DataResult<JobPosition>> add(@Valid @RequestBody JobPosition jobPosition){
         return ResponseEntity.ok(jobPositionService.add(jobPosition));
+    }
+
+    @GetMapping("/getAllPaged")
+    public DataResult<List<JobPosition>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+                                                     @RequestParam("pageSize") int pageSize){
+        return jobPositionService.getAllPaged(pageNumber, pageSize);
     }
 }

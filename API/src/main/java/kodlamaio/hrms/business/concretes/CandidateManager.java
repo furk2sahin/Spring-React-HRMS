@@ -11,6 +11,8 @@ import kodlamaio.hrms.repositories.CandidateDao;
 import kodlamaio.hrms.model.concretes.Candidate;
 import kodlamaio.hrms.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -19,11 +21,11 @@ import java.util.List;
 @Service
 public class CandidateManager implements CandidateService {
 
-    private CandidateDao candidateDao;
-    private UserDao userDao;
-    private UserCheckService userCheckService;
-    private EmailService emailService;
-    private VerificationCodeService verificationCodeService;
+    private final CandidateDao candidateDao;
+    private final UserDao userDao;
+    private final UserCheckService userCheckService;
+    private final EmailService emailService;
+    private final VerificationCodeService verificationCodeService;
 
     @Autowired
     public CandidateManager(CandidateDao candidateDao,
@@ -46,7 +48,7 @@ public class CandidateManager implements CandidateService {
     @Override
     public DataResult<Candidate> add(Candidate candidate) {
         if(candidate.getBirthDate() == null){
-            return new ErrorDataResult(
+            return new ErrorDataResult<>(
                     "BirthDate cannot be null."
             );
         }
@@ -75,6 +77,28 @@ public class CandidateManager implements CandidateService {
             return dataResult;
         } else {
             return new ErrorDataResult<>(result.getMessage());
+        }
+    }
+
+    @Override
+    public DataResult<List<Candidate>> getAllPaged(int pageNo, int pageSize) {
+        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        if(result.isSuccess()){
+            Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+            return new SuccessDataResult<>(candidateDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+        } else {
+            return result;
+        }
+    }
+
+    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
+        if(pageSize < 1){
+            return new ErrorDataResult<>("Page size is not valid.");
+        } else if(pageNo < 1){
+            return new ErrorDataResult<>("Page number is not valid.");
+        } else {
+            return new SuccessDataResult<>();
         }
     }
 

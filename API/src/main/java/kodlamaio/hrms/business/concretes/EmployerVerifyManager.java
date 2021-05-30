@@ -17,8 +17,8 @@ import java.util.regex.Pattern;
 @Service
 public class EmployerVerifyManager implements EmployerVerifyService {
 
-    private EmployerVerifyDao employerVerifyDao;
-    private SystemPersonnelDao systemPersonnelDao;
+    private final EmployerVerifyDao employerVerifyDao;
+    private final SystemPersonnelDao systemPersonnelDao;
 
     @Autowired
     public EmployerVerifyManager(EmployerVerifyDao employerVerifyDao,

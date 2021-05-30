@@ -14,8 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/employer")
 public class EmployersController {
 
-    private EmployerService employerService;
-
+    private final EmployerService employerService;
 
     @Autowired
     public EmployersController(EmployerService employerService) {
@@ -30,5 +29,11 @@ public class EmployersController {
     @PostMapping("/add")
     public Result add(@RequestBody @Valid Employer employer){
         return employerService.add(employer);
+    }
+
+    @GetMapping("/getAllPaged")
+    public DataResult<List<Employer>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+                                                   @RequestParam("pageSize") int pageSize){
+        return employerService.getAllPaged(pageNumber, pageSize);
     }
 }

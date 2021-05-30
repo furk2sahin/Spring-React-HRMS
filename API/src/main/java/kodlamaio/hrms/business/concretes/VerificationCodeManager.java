@@ -18,9 +18,9 @@ import java.util.UUID;
 @Service
 public class VerificationCodeManager implements VerificationCodeService {
 
-    private VerificationCodeDao verificationCodeDao;
-    private EmployerDao employerDao;
-    private EmployerVerifyDao employerVerifyDao;
+    private final VerificationCodeDao verificationCodeDao;
+    private final EmployerDao employerDao;
+    private final EmployerVerifyDao employerVerifyDao;
 
     @Autowired
     public VerificationCodeManager(VerificationCodeDao verificationCodeDao,

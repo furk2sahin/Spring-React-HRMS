@@ -1,21 +1,20 @@
 package kodlamaio.hrms.api.controller;
 
 import kodlamaio.hrms.business.abstracts.SystemPersonnelService;
+import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/system-personnel")
 public class SystemPersonnelController {
 
-    private SystemPersonnelService personnelService;
+    private final SystemPersonnelService personnelService;
 
     @Autowired
     public SystemPersonnelController(SystemPersonnelService personnelService) {
@@ -25,5 +24,11 @@ public class SystemPersonnelController {
     @PostMapping("/add")
     public Result add(@RequestBody @Valid SystemPersonnel systemPersonnel){
         return personnelService.add(systemPersonnel);
+    }
+
+    @GetMapping("/getAllPaged")
+    public DataResult<List<SystemPersonnel>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+                                                     @RequestParam("pageSize") int pageSize){
+        return personnelService.getAllPaged(pageNumber, pageSize);
     }
 }

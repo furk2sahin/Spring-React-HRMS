@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 @Service
 public class JobAdvertiseManager implements JobAdvertiseService {
 
-    private JobAdvertiseDao jobAdvertiseDao;
+    private final JobAdvertiseDao jobAdvertiseDao;
 
     @Autowired
     public JobAdvertiseManager(JobAdvertiseDao jobAdvertiseDao) {

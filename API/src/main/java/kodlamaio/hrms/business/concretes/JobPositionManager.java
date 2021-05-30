@@ -8,6 +8,8 @@ import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.repositories.JobPositionDao;
 import kodlamaio.hrms.model.concretes.JobPosition;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.List;
 @Service
 public class JobPositionManager implements JobPositionService {
 
-    private JobPositionDao jobPositionDao;
+    private final JobPositionDao jobPositionDao;
 
     @Autowired
     public JobPositionManager(JobPositionDao jobPositionDao){
@@ -46,10 +48,32 @@ public class JobPositionManager implements JobPositionService {
         try{
             return new SuccessDataResult<>(
                     jobPositionDao.getByJobName(name),
-                    "Successfull."
+                    "Successful."
             );
         } catch (Exception e){
             return new ErrorDataResult<>("Error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public DataResult<List<JobPosition>> getAllPaged(int pageNo, int pageSize) {
+        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        if(result.isSuccess()){
+            Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+            return new SuccessDataResult<>(jobPositionDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+        } else {
+            return result;
+        }
+    }
+
+    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
+        if(pageSize < 1){
+            return new ErrorDataResult<>("Page size is not valid.");
+        } else if(pageNo < 1){
+            return new ErrorDataResult<>("Page number is not valid.");
+        } else {
+            return new SuccessDataResult<>();
         }
     }
 }

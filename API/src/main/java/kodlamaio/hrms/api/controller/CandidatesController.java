@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/candidate")
 public class CandidatesController {
 
-    private CandidateService candidateService;
+    private final CandidateService candidateService;
 
     @Autowired
     public CandidatesController(CandidateService candidateService) {
@@ -29,5 +29,11 @@ public class CandidatesController {
     @PostMapping("/add")
     public Result add(@RequestBody @Valid Candidate candidate){
         return candidateService.add(candidate);
+    }
+
+    @GetMapping("/getAllPaged")
+    public DataResult<List<Candidate>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+                                                                   @RequestParam("pageSize") int pageSize){
+        return candidateService.getAllPaged(pageNumber, pageSize);
     }
 }

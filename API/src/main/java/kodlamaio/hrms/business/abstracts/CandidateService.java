@@ -9,4 +9,5 @@ import java.util.List;
 public interface CandidateService {
     DataResult<Candidate> add(Candidate candidate);
     DataResult<List<Candidate>> getAll();
+    DataResult<List<Candidate>> getAllPaged(int pageNo, int pageSize);
 }

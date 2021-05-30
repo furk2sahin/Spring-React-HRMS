@@ -9,4 +9,5 @@ public interface JobPositionService {
     DataResult<List<JobPosition>> getAll();
     DataResult<JobPosition> getByName(String name);
     DataResult<JobPosition> add(JobPosition jobPosition);
+    DataResult<List<JobPosition>> getAllPaged(int pageNo, int pageSize);
 }

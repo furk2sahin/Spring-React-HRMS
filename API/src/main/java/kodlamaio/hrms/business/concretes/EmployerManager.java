@@ -10,6 +10,8 @@ import kodlamaio.hrms.repositories.EmployerDao;
 import kodlamaio.hrms.model.concretes.Employer;
 import kodlamaio.hrms.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -18,10 +20,10 @@ import java.util.List;
 @Service
 public class EmployerManager implements EmployerService {
 
-    private EmployerDao employerDao;
-    private UserDao userDao;
-    private EmailService emailService;
-    private VerificationCodeService verificationCodeService;
+    private final EmployerDao employerDao;
+    private final UserDao userDao;
+    private final EmailService emailService;
+    private final VerificationCodeService verificationCodeService;
 
     @Autowired
     public EmployerManager(EmployerDao employerDao,
@@ -61,6 +63,28 @@ public class EmployerManager implements EmployerService {
             return dataResult;
         } else {
             return new ErrorDataResult<>(result.getMessage());
+        }
+    }
+
+    @Override
+    public DataResult<List<Employer>> getAllPaged(int pageNo, int pageSize) {
+        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        if(result.isSuccess()){
+            Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+            return new SuccessDataResult<>(employerDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+        } else {
+            return result;
+        }
+    }
+
+    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
+        if(pageSize < 1){
+            return new ErrorDataResult<>("Page size is not valid.");
+        } else if(pageNo < 1){
+            return new ErrorDataResult<>("Page number is not valid.");
+        } else {
+            return new SuccessDataResult<>();
         }
     }
 

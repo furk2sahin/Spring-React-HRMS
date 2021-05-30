@@ -7,15 +7,18 @@ import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import kodlamaio.hrms.repositories.SystemPersonnelDao;
 import kodlamaio.hrms.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class SystemPersonnelManager implements SystemPersonnelService {
 
-    private SystemPersonnelDao systemPersonnelDao;
-    private UserDao userDao;
+    private final SystemPersonnelDao systemPersonnelDao;
+    private final UserDao userDao;
 
     @Autowired
     public SystemPersonnelManager(SystemPersonnelDao systemPersonnelDao, UserDao userDao) {
@@ -36,6 +39,28 @@ public class SystemPersonnelManager implements SystemPersonnelService {
             );
         } else {
             return new ErrorDataResult<>(result.getMessage());
+        }
+    }
+
+    @Override
+    public DataResult<List<SystemPersonnel>> getAllPaged(int pageNo, int pageSize) {
+        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        if(result.isSuccess()){
+            Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+            return new SuccessDataResult<>(systemPersonnelDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+        } else {
+            return result;
+        }
+    }
+
+    private DataResult<Object> checkIfPageNoAndPageSizeValid(int pageNo, int pageSize){
+        if(pageSize < 1){
+            return new ErrorDataResult<>("Page size is not valid.");
+        } else if(pageNo < 1){
+            return new ErrorDataResult<>("Page number is not valid.");
+        } else {
+            return new SuccessDataResult<>();
         }
     }
 
