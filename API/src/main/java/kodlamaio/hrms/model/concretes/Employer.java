@@ -32,10 +32,10 @@ public class Employer extends User {
 
     @NotBlank(message = "Phone number cannot be empty.")
     @Column(nullable = false)
-    @Size(min = 11, max = 11,
-            message = "Wrong phone number format. Examples 0(2 or 5)xx xxx xx xx or 0(2 or 5)xxxxxxxxx, ")
+    @Size(min = 11, max = 14,
+            message = "Wrong phone number format. Examples 0(2 or 5)xx xxx xx xx or 0(2 or 5)xxxxxxxxx")
     @Pattern(regexp = "^(0[25])([0-9]{2})\\s?([0-9]{3})\\s?([0-9]{2})\\s?([0-9]{2})$",
-            message = "Phone can't start with 0 or contain text.")
+            message = "Wrong phone number format. Examples 0(2 or 5)xx xxx xx xx or 0(2 or 5)xxxxxxxxx")
     private String phone;
 
     @OneToOne(mappedBy = "employer")
