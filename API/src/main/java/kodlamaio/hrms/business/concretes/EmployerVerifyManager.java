@@ -1,7 +1,8 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.BusinessRule;
+import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
+import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.model.concretes.Employer;
@@ -20,12 +21,15 @@ public class EmployerVerifyManager implements EmployerVerifyService {
 
     private final EmployerVerifyDao employerVerifyDao;
     private final SystemPersonnelDao systemPersonnelDao;
+    private final BusinessRuleService businessRuleService;
 
     @Autowired
     public EmployerVerifyManager(EmployerVerifyDao employerVerifyDao,
-                                 SystemPersonnelDao systemPersonnelDao) {
+                                 SystemPersonnelDao systemPersonnelDao,
+                                 BusinessRuleService businessRuleService) {
         this.employerVerifyDao = employerVerifyDao;
         this.systemPersonnelDao = systemPersonnelDao;
+        this.businessRuleService = businessRuleService;
     }
 
     @Override
@@ -42,11 +46,11 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         SystemPersonnel systemPersonnel = systemPersonnelDao.findByUuid(systemPersonnelUuid).orElse(null);
 
         Result result = ResultChecker.check(Arrays.asList(
-                BusinessRule.checkIfEmployerVerifyExists(employerVerify),
-                BusinessRule.checkIfSystemPersonnelExists(systemPersonnel),
+                businessRuleService.checkIfEmployerVerifyExists(employerVerify),
+                businessRuleService.checkIfSystemPersonnelExists(systemPersonnel),
                 checkIfEmployerAlreadyVerified(employerUuid),
-                BusinessRule.checkIfUuidValid(employerUuid, "Employer"),
-                BusinessRule.checkIfUuidValid(systemPersonnelUuid, "System personnel")
+                businessRuleService.checkIfUuidValid(employerUuid, "Employer"),
+                businessRuleService.checkIfUuidValid(systemPersonnelUuid, "System personnel")
         ));
 
         if(result.isSuccess()){

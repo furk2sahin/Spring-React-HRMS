@@ -1,8 +1,8 @@
 package kodlamaio.hrms.business.concretes;
 
 import com.google.common.base.Strings;
-import kodlamaio.hrms.business.BusinessRule;
 import kodlamaio.hrms.business.abstracts.JobPositionService;
+import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
@@ -19,10 +19,13 @@ import java.util.List;
 public class JobPositionManager implements JobPositionService {
 
     private final JobPositionDao jobPositionDao;
+    private final BusinessRuleService businessRuleService;
 
     @Autowired
-    public JobPositionManager(JobPositionDao jobPositionDao){
+    public JobPositionManager(JobPositionDao jobPositionDao,
+                              BusinessRuleService businessRuleService){
         this.jobPositionDao = jobPositionDao;
+        this.businessRuleService = businessRuleService;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class JobPositionManager implements JobPositionService {
 
     @Override
     public DataResult<List<JobPosition>> getAllPaged(int pageNo, int pageSize) {
-        DataResult result = BusinessRule.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
             return new SuccessDataResult<>(jobPositionDao.findAll(pageable).getContent(),

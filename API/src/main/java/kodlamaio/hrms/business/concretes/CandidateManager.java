@@ -1,15 +1,15 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
+import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.adapter.abstracts.EmailService;
-import kodlamaio.hrms.core.adapter.abstracts.UserCheckService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import kodlamaio.hrms.repositories.CandidateDao;
 import kodlamaio.hrms.model.concretes.Candidate;
-import kodlamaio.hrms.repositories.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,27 +18,21 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
-import static kodlamaio.hrms.business.BusinessRule.checkIfPageNoAndPageSizeValid;
-import static kodlamaio.hrms.business.BusinessRule.checkIfPasswordsMatch;
-
 @Service
 public class CandidateManager implements CandidateService {
 
     private final CandidateDao candidateDao;
-    private final UserDao userDao;
-    private final UserCheckService userCheckService;
+    private final BusinessRuleService businessRuleService;
     private final EmailService emailService;
     private final VerificationCodeService verificationCodeService;
 
     @Autowired
     public CandidateManager(CandidateDao candidateDao,
-                            UserDao userDao,
-                            UserCheckService userCheckService,
+                            BusinessRuleService businessRuleService,
                             EmailService emailService,
                             VerificationCodeService verificationCodeService) {
         this.candidateDao = candidateDao;
-        this.userDao = userDao;
-        this.userCheckService = userCheckService;
+        this.businessRuleService= businessRuleService;
         this.emailService = emailService;
         this.verificationCodeService = verificationCodeService;
     }
@@ -56,14 +50,14 @@ public class CandidateManager implements CandidateService {
             );
         }
         Result result = ResultChecker.check(Arrays.asList(
-                checkIfEmailExists(candidate.getEmail()),
+                businessRuleService.checkIfEmailExists(candidate.getEmail()),
                 checkIfNationalIdentityExists(candidate.getNationalIdentity()),
-                checkIfUserInformationCorrect(
+                businessRuleService.checkIfUserInformationCorrect(
                         candidate.getNationalIdentity(),
                         candidate.getName(),
                         candidate.getSurname(),
                         candidate.getBirthDate().toLocalDate().getYear()),
-                checkIfPasswordsMatch(candidate.getPassword(), candidate.getPasswordCheck())
+                businessRuleService.checkIfPasswordsMatch(candidate.getPassword(), candidate.getPasswordCheck())
         ));
 
         if(result.isSuccess()){
@@ -85,7 +79,7 @@ public class CandidateManager implements CandidateService {
 
     @Override
     public DataResult<List<Candidate>> getAllPaged(int pageNo, int pageSize) {
-        DataResult result = checkIfPageNoAndPageSizeValid(pageNo, pageSize);
+        DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
             return new SuccessDataResult<>(candidateDao.findAll(pageable).getContent(),
@@ -103,30 +97,10 @@ public class CandidateManager implements CandidateService {
         emailService.sendMail(email, message);
     }
 
-    private Result checkIfEmailExists(String email){
-        if(userDao.existsByEmail(email)){
-            return new ErrorResult(
-                    "This email already taken."
-            );
-        } else {
-            return new SuccessResult();
-        }
-    }
-
     private Result checkIfNationalIdentityExists(String nationalIdentity){
         if(candidateDao.existsByNationalIdentity(nationalIdentity)){
             return new ErrorResult(
                     "An user exists with this national identity."
-            );
-        } else {
-            return new SuccessResult();
-        }
-    }
-
-    private Result checkIfUserInformationCorrect(String nationalIdentity, String name, String surname, int year){
-        if(!userCheckService.validate(nationalIdentity, name, surname, year)) {
-            return new ErrorResult(
-                    "User information was incorrect."
             );
         } else {
             return new SuccessResult();

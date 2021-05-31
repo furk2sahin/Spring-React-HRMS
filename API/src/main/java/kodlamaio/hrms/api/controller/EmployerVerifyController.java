@@ -27,6 +27,4 @@ public class EmployerVerifyController {
                                              @PathVariable("personnelUuid") UUID personnelUuid){
         return employerVerifyService.verifyEmployer(employerUuid, personnelUuid);
     }
-
-
 }

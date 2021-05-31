@@ -1,5 +1,6 @@
 package kodlamaio.hrms.core.exceptionHandler;
 
+import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
@@ -9,13 +10,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class Handler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return new ResponseEntity<>(new ErrorResult(ex.getBindingResult().getFieldError().getDefaultMessage()),
-                HttpStatus.NOT_ACCEPTABLE);
+    public ErrorDataResult<Object> handleValidationExceptions(MethodArgumentNotValidException exceptions) {
+        Map<String, String> validationErrors = new HashMap<>();
+
+        exceptions.getBindingResult().getFieldErrors()
+                .forEach(fieldError -> validationErrors
+                        .put(fieldError.getField(), fieldError.getDefaultMessage()));
+
+        return new ErrorDataResult<>(validationErrors, "Validation Errors");
     }
 
     @ExceptionHandler(PropertyValueException.class)

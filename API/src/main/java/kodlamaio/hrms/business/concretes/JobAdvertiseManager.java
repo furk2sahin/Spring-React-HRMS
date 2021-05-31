@@ -1,7 +1,8 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.BusinessRule;
+import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
+import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.enums.JobAdvertiseSort;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
@@ -23,21 +24,24 @@ import java.util.regex.Pattern;
 public class JobAdvertiseManager implements JobAdvertiseService {
 
     private final JobAdvertiseDao jobAdvertiseDao;
+    private final BusinessRuleService businessRuleService;
 
     @Autowired
-    public JobAdvertiseManager(JobAdvertiseDao jobAdvertiseDao) {
+    public JobAdvertiseManager(JobAdvertiseDao jobAdvertiseDao,
+                               BusinessRuleService businessRuleService) {
         this.jobAdvertiseDao = jobAdvertiseDao;
+        this.businessRuleService = businessRuleService;
     }
 
     @Override
     public DataResult<JobAdvertise> add(JobAdvertise jobAdvertise, int expiryInDays) {
         Result result = ResultChecker.check(Arrays.asList(
-                BusinessRule.checkIfCityIdValid(jobAdvertise.getCity().getId()),
-                BusinessRule.checkIfJobIdValid(jobAdvertise.getJobPosition().getId()),
-                BusinessRule.checkIfEmployerIdValid(jobAdvertise.getEmployer().getId()),
-                BusinessRule.checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
-                BusinessRule.checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
-                BusinessRule.checkIfExpiryDayValid(expiryInDays)
+                businessRuleService.checkIfCityIdValid(jobAdvertise.getCity().getId()),
+                businessRuleService.checkIfJobIdValid(jobAdvertise.getJobPosition().getId()),
+                businessRuleService.checkIfEmployerIdValid(jobAdvertise.getEmployer().getId()),
+                businessRuleService.checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
+                businessRuleService.checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
+                businessRuleService.checkIfExpiryDayValid(expiryInDays)
         ));
 
         if(result.isSuccess()){
@@ -89,7 +93,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(Long id) {
-        DataResult result = BusinessRule.checkIfIdValid(id);
+        DataResult result = businessRuleService.checkIfIdValid(id);
         if(!result.isSuccess()){
             return result;
         }
@@ -103,7 +107,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(Long id) {
-        DataResult result = BusinessRule.checkIfIdValid(id);
+        DataResult result = businessRuleService.checkIfIdValid(id);
         if(!result.isSuccess()){
             return result;
         }
@@ -128,7 +132,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public DataResult<List<JobAdvertise>> findAllByActiveTruePaged(int pageNumber, int pageSize) {
-        DataResult dataResult = BusinessRule.checkIfPageNoAndPageSizeValid(pageNumber, pageSize);
+        DataResult dataResult = businessRuleService.checkIfPageNoAndPageSizeValid(pageNumber, pageSize);
         if(dataResult.isSuccess()){
             Pageable pageable = PageRequest.of(pageNumber, pageSize);
             return new SuccessDataResult<>(
