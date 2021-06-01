@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "cities")
 @NoArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","jobAdvertises"})
 public class City {
 
     @Id
