@@ -19,9 +19,6 @@ public interface JobAdvertiseMapper {
     JobAdvertise map(JobAdvertisePostDto jobAdvertisePostDto);
 
     @Named("toGetDto")
-    @Mapping(source = "city", target = "cityGetDto")
-    @Mapping(source = "employer", target = "employerGetDto")
-    @Mapping(source = "jobPosition", target = "jobPositionDto")
     JobAdvertiseGetDto map(JobAdvertise jobAdvertise);
 
     @IterableMapping(qualifiedByName = "toGetDto")

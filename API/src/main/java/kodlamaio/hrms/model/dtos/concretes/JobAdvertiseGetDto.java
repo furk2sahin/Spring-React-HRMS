@@ -12,7 +12,7 @@ public class JobAdvertiseGetDto {
     private int minSalary;
     private int openPositionCount;
     private String jobDefinition;
-    private CityGetDto cityGetDto;
-    private EmployerGetDto employerGetDto;
-    private JobPositionDto jobPositionDto;
+    private CityGetDto city;
+    private EmployerGetDto employer;
+    private JobPositionDto jobPosition;
 }
