@@ -5,7 +5,10 @@ import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.enums.JobAdvertiseSort;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.mapper.JobAdvertiseMapper;
 import kodlamaio.hrms.model.concretes.JobAdvertise;
+import kodlamaio.hrms.model.dtos.concretes.JobAdvertiseGetDto;
+import kodlamaio.hrms.model.dtos.concretes.JobAdvertisePostDto;
 import kodlamaio.hrms.repositories.JobAdvertiseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,29 +28,32 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     private final JobAdvertiseDao jobAdvertiseDao;
     private final BusinessRuleService businessRuleService;
-
+    private final JobAdvertiseMapper jobAdvertiseMapper;
     @Autowired
     public JobAdvertiseManager(JobAdvertiseDao jobAdvertiseDao,
-                               BusinessRuleService businessRuleService) {
+                               BusinessRuleService businessRuleService,
+                               JobAdvertiseMapper jobAdvertiseMapper) {
         this.jobAdvertiseDao = jobAdvertiseDao;
         this.businessRuleService = businessRuleService;
+        this.jobAdvertiseMapper = jobAdvertiseMapper;
     }
 
     @Override
-    public DataResult<JobAdvertise> add(JobAdvertise jobAdvertise, int expiryInDays) {
+    public DataResult<JobAdvertiseGetDto> add(JobAdvertisePostDto jobAdvertisePostDto, int expiryInDays) {
         Result result = ResultChecker.check(Arrays.asList(
-                businessRuleService.checkIfIdValid((long)jobAdvertise.getCity().getId(), "City"),
-                businessRuleService.checkIfIdValid(jobAdvertise.getJobPosition().getId(), "Job"),
-                businessRuleService.checkIfIdValid(jobAdvertise.getEmployer().getId(), "Employer"),
-                businessRuleService.checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
-                businessRuleService.checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
+                businessRuleService.checkIfIdValid(jobAdvertisePostDto.getCityId(), "City"),
+                businessRuleService.checkIfIdValid(jobAdvertisePostDto.getJobPositionId(), "Job"),
+                businessRuleService.checkIfIdValid(jobAdvertisePostDto.getEmployerId(), "Employer"),
+                businessRuleService.checkIfSalariesValid(jobAdvertisePostDto.getMaxSalary(), jobAdvertisePostDto.getMinSalary()),
+                businessRuleService.checkIfOpenPositionValid(jobAdvertisePostDto.getOpenPositionCount()),
                 businessRuleService.checkIfExpiryDayValid(expiryInDays)
         ));
 
         if(result.isSuccess()){
+            JobAdvertise jobAdvertise = jobAdvertiseMapper.map(jobAdvertisePostDto);
             jobAdvertise.setExpirationDate(LocalDate.now().plusDays(expiryInDays));
             return new SuccessDataResult<>(
-                    jobAdvertiseDao.save(jobAdvertise),
+                    jobAdvertiseMapper.map(jobAdvertiseDao.save(jobAdvertise)),
                     "Job Advertise saved successfully."
             );
         } else {

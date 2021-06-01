@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.JobAdvertise;
+import kodlamaio.hrms.model.dtos.concretes.JobAdvertiseGetDto;
+import kodlamaio.hrms.model.dtos.concretes.JobAdvertisePostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +31,9 @@ public class JobAdvertiseController {
     }
 
     @PostMapping("/add")
-    public DataResult<JobAdvertise> add(@RequestBody @Valid JobAdvertise jobAdvertise,
+    public DataResult<JobAdvertiseGetDto> add(@RequestBody @Valid JobAdvertisePostDto jobAdvertisePostDto,
                                               @RequestParam("expiryInDays") int expiryInDays){
-        return jobAdvertiseService.add(jobAdvertise, expiryInDays);
+        return jobAdvertiseService.add(jobAdvertisePostDto, expiryInDays);
     }
 
     @ApiOperation(value = "sortId=1 -> sort BY_CREATE_DATE_DESC ----- " +
