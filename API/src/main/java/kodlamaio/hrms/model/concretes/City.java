@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Entity
@@ -20,7 +19,4 @@ public class City {
 
     @Column(name = "name", unique = true, updatable = false)
     private String name;
-
-    @OneToMany(mappedBy = "city")
-    private List<JobAdvertise> jobAdvertises;
 }

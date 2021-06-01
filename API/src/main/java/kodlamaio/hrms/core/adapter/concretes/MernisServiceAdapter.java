@@ -1,7 +1,7 @@
 package kodlamaio.hrms.core.adapter.concretes;
 
 import kodlamaio.hrms.core.adapter.abstracts.UserCheckService;
-import kodlamaio.hrms.externalServices.mernis.NVMKPSPublicSoap;
+import kodlamaio.hrms.externalservices.mernis.NVMKPSPublicSoap;
 import org.springframework.stereotype.Service;
 
 import java.rmi.RemoteException;

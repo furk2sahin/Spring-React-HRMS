@@ -6,7 +6,10 @@ import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.adapter.abstracts.EmailService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.mapper.CandidateMapper;
 import kodlamaio.hrms.model.concretes.VerificationCode;
+import kodlamaio.hrms.model.dtos.concretes.CandidateGetDto;
+import kodlamaio.hrms.model.dtos.concretes.CandidatePostDto;
 import kodlamaio.hrms.repositories.CandidateDao;
 import kodlamaio.hrms.model.concretes.Candidate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,49 +28,58 @@ public class CandidateManager implements CandidateService {
     private final BusinessRuleService businessRuleService;
     private final EmailService emailService;
     private final VerificationCodeService verificationCodeService;
+    private final CandidateMapper candidateMapper;
 
     @Autowired
     public CandidateManager(CandidateDao candidateDao,
                             BusinessRuleService businessRuleService,
                             EmailService emailService,
-                            VerificationCodeService verificationCodeService) {
+                            VerificationCodeService verificationCodeService,
+                            CandidateMapper candidateMapper) {
         this.candidateDao = candidateDao;
         this.businessRuleService= businessRuleService;
         this.emailService = emailService;
         this.verificationCodeService = verificationCodeService;
+        this.candidateMapper = candidateMapper;
     }
 
     @Override
-    public DataResult<List<Candidate>> getAll() {
-        return new SuccessDataResult<>(candidateDao.findAll(), "Data listed successfully");
+    public DataResult<List<CandidateGetDto>> getAll() {
+        return new SuccessDataResult<>(
+                candidateMapper.candidatesToCandidateGetDtos(candidateDao.findAll()),
+                "Data listed successfully");
     }
 
     @Override
-    public ResponseEntity<DataResult<Candidate>> add(Candidate candidate) {
-        if(candidate.getBirthDate() == null){
+    public ResponseEntity<DataResult<CandidateGetDto>> add(CandidatePostDto candidatePostDto) {
+        if(candidatePostDto.getBirthDate() == null){
             return ResponseEntity.badRequest().body(new ErrorDataResult<>(
                     "BirthDate cannot be null."
             ));
         }
         Result result = ResultChecker.check(Arrays.asList(
-                businessRuleService.checkIfEmailExists(candidate.getEmail()),
-                checkIfNationalIdentityExists(candidate.getNationalIdentity()),
+                businessRuleService.checkIfEmailExists(candidatePostDto.getEmail()),
+                checkIfNationalIdentityExists(candidatePostDto.getNationalIdentity()),
                 businessRuleService.checkIfUserInformationCorrect(
-                        candidate.getNationalIdentity(),
-                        candidate.getName(),
-                        candidate.getSurname(),
-                        candidate.getBirthDate().toLocalDate().getYear()),
-                businessRuleService.checkIfPasswordsMatch(candidate.getPassword(), candidate.getPasswordCheck())
+                        candidatePostDto.getNationalIdentity(),
+                        candidatePostDto.getName(),
+                        candidatePostDto.getSurname(),
+                        candidatePostDto.getBirthDate().toLocalDate().getYear()),
+                businessRuleService.checkIfPasswordsMatch(candidatePostDto.getPassword(),
+                        candidatePostDto.getPasswordCheck())
         ));
 
         if(result.isSuccess()){
-            DataResult<Candidate> dataResult = new SuccessDataResult<>(
-                    candidateDao.save(candidate),
+            Candidate candidate = candidateMapper.candidatePostDtoToCandidate(candidatePostDto);
+            candidateDao.save(candidate);
+            DataResult<CandidateGetDto> dataResult = new SuccessDataResult<>(
+                    candidateMapper.candidateToCandidateGetDto(candidate),
                     "Candidate saved successfully."
             );
             VerificationCode verificationCode = addVerificationCode(candidate);
             sendMail(candidate.getEmail(),
-                    "Please verify your email using code : http://localhost:8080/api/v1/verification-code/verify-candidate/" +
+                    "Please verify your email using code : " +
+                            "http://localhost:8080/api/v1/verification-code/verify-candidate/" +
                             dataResult.getData().getUuid() + "/"
                             +verificationCode.getCode()
             );
@@ -78,11 +90,12 @@ public class CandidateManager implements CandidateService {
     }
 
     @Override
-    public ResponseEntity<DataResult<List<Candidate>>> getAllPaged(int pageNo, int pageSize) {
+    public ResponseEntity<DataResult<List<CandidateGetDto>>> getAllPaged(int pageNo, int pageSize) {
         DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-            return ResponseEntity.ok(new SuccessDataResult<>(candidateDao.findAll(pageable).getContent(),
+            return ResponseEntity.ok(new SuccessDataResult<>(
+                    candidateMapper.candidatesToCandidateGetDtos(candidateDao.findAll(pageable).getContent()),
                     "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize));
         } else {
             return ResponseEntity.badRequest().body(result);

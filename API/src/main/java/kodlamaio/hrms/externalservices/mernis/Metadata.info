@@ -9,7 +9,7 @@
   <Settings>
     <Url>https://tckimlik.nvi.gov.tr/Service/KPSPublic.asmx?WSDL</Url>
     <ClassPrefix/>
-    <PackageName>kodlamaio.hrms.externalServices.mernis</PackageName>
+    <PackageName>kodlamaio.hrms.externalservices.mernis</PackageName>
     <AddDocumentation>false</AddDocumentation>
     <EnableAdvancedFeatures>true</EnableAdvancedFeatures>
     <EnableMTOM>false</EnableMTOM>

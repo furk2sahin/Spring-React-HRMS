@@ -1,4 +1,4 @@
-package kodlamaio.hrms.externalServices.mernis;
+package kodlamaio.hrms.externalservices.mernis;
 
 //----------------------------------------------------
 //
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NVMKPSPublicSoap12
+public class NVMKPSPublicSoap
 {
     interface NVMIWcfMethod
     {
@@ -35,14 +35,14 @@ public class NVMKPSPublicSoap12
     public boolean enableLogging;
 
 
-    public NVMKPSPublicSoap12(){}
+    public NVMKPSPublicSoap(){}
 
-    public NVMKPSPublicSoap12(String url)
+    public NVMKPSPublicSoap(String url)
     {
         this.url = url;
     }
 
-    public NVMKPSPublicSoap12(String url,int timeOut)
+    public NVMKPSPublicSoap(String url,int timeOut)
     {
         this.url = url;
         this.timeOut=timeOut;
@@ -77,7 +77,7 @@ public class NVMKPSPublicSoap12
 
     protected NVMExtendedSoapSerializationEnvelope createEnvelope()
     {
-        NVMExtendedSoapSerializationEnvelope envelope= new NVMExtendedSoapSerializationEnvelope(NVMExtendedSoapSerializationEnvelope.VER12);
+        NVMExtendedSoapSerializationEnvelope envelope= new NVMExtendedSoapSerializationEnvelope(NVMExtendedSoapSerializationEnvelope.VER11);
         envelope.enableLogging = enableLogging;
     
         return envelope;

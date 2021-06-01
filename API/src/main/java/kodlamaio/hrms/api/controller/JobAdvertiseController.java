@@ -30,7 +30,7 @@ public class JobAdvertiseController {
 
     @PostMapping("/add")
     public DataResult<JobAdvertise> add(@RequestBody @Valid JobAdvertise jobAdvertise,
-                                        @RequestParam("expiryInDays") int expiryInDays){
+                                              @RequestParam("expiryInDays") int expiryInDays){
         return jobAdvertiseService.add(jobAdvertise, expiryInDays);
     }
 

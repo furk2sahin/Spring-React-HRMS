@@ -1,6 +1,5 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;

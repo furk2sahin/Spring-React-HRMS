@@ -37,8 +37,4 @@ public class Employer extends User {
     @Pattern(regexp = "^(0[25])([0-9]{2})\\s?([0-9]{3})\\s?([0-9]{2})\\s?([0-9]{2})$",
             message = "Wrong phone number format. Examples 0(2 or 5)xx xxx xx xx or 0(2 or 5)xxxxxxxxx")
     private String phone;
-
-    @OneToOne(mappedBy = "employer")
-    @JsonIgnore
-    private EmployerVerify employerVerify;
 }

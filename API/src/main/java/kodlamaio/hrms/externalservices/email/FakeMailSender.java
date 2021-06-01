@@ -1,4 +1,4 @@
-package kodlamaio.hrms.externalServices.email;
+package kodlamaio.hrms.externalservices.email;
 
 public class FakeMailSender {
 
