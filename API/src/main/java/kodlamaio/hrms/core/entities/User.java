@@ -1,4 +1,4 @@
-package kodlamaio.hrms.model.abstracts;
+package kodlamaio.hrms.core.entities;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

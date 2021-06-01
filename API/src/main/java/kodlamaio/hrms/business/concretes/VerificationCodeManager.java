@@ -4,7 +4,7 @@ import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
 import kodlamaio.hrms.core.utilities.codegenerator.CodeGenerator;
 import kodlamaio.hrms.core.utilities.results.*;
-import kodlamaio.hrms.model.abstracts.User;
+import kodlamaio.hrms.core.entities.User;
 import kodlamaio.hrms.model.concretes.Employer;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import kodlamaio.hrms.repositories.EmployerDao;

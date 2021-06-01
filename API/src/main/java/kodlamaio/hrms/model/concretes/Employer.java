@@ -1,7 +1,7 @@
 package kodlamaio.hrms.model.concretes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import kodlamaio.hrms.model.abstracts.User;
+import kodlamaio.hrms.core.entities.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

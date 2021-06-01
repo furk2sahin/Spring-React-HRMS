@@ -1,6 +1,6 @@
 package kodlamaio.hrms.model.concretes;
 
-import kodlamaio.hrms.model.abstracts.User;
+import kodlamaio.hrms.core.entities.User;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

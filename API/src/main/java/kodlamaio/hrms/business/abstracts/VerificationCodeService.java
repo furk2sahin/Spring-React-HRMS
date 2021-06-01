@@ -2,7 +2,7 @@ package kodlamaio.hrms.business.abstracts;
 
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.model.abstracts.User;
+import kodlamaio.hrms.core.entities.User;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import org.springframework.http.ResponseEntity;
 
