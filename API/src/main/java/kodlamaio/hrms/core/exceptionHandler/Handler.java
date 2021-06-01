@@ -17,14 +17,14 @@ import java.util.Map;
 public class Handler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorDataResult<Object> handleValidationExceptions(MethodArgumentNotValidException exceptions) {
+    public ResponseEntity<ErrorDataResult<Object>> handleValidationExceptions(MethodArgumentNotValidException exceptions) {
         Map<String, String> validationErrors = new HashMap<>();
 
         exceptions.getBindingResult().getFieldErrors()
                 .forEach(fieldError -> validationErrors
                         .put(fieldError.getField(), fieldError.getDefaultMessage()));
 
-        return new ErrorDataResult<>(validationErrors, "Validation Errors");
+        return ResponseEntity.badRequest().body(new ErrorDataResult<>(validationErrors, "Validation Errors"));
     }
 
     @ExceptionHandler(PropertyValueException.class)

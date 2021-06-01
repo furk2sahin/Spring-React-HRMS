@@ -6,6 +6,7 @@ import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.VerificationCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -22,14 +23,14 @@ public class VerificationCodesController {
     }
 
     @GetMapping("/confirm/{uuid}/{code}")
-    public Result confirm(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
-        DataResult<VerificationCode> result = verificationCodeService.findByUserUuid(uuid);
-        if(!result.isSuccess()){
-            return new ErrorResult(result.getMessage());
-        } else if(result.getData().isConfirmed()){
-            return new ErrorResult("Your account already confirmed.");
+    public ResponseEntity<Result> confirm(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
+        ResponseEntity<DataResult<VerificationCode>> result = verificationCodeService.findByUserUuid(uuid);
+        if(!result.getBody().isSuccess()){
+            return ResponseEntity.badRequest().body(new ErrorResult(result.getBody().getMessage()));
+        } else if(result.getBody().getData().isConfirmed()){
+            return ResponseEntity.badRequest().body(new ErrorResult("Your account already confirmed."));
         } else{
-            return verificationCodeService.confirm(result.getData(), verificationCode);
+            return verificationCodeService.confirm(result.getBody().getData(), verificationCode);
         }
     }
 }

@@ -1,5 +1,6 @@
 package kodlamaio.hrms.business.rules;
 
+import com.google.common.base.Strings;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.adapter.abstracts.UserCheckService;
 import kodlamaio.hrms.core.utilities.results.*;
@@ -163,6 +164,7 @@ public class BusinessRuleManager implements BusinessRuleService{
         }
     }
 
+    @Override
     public Result checkIfUserInformationCorrect(String nationalIdentity, String name, String surname, int year){
         if(!userCheckService.validate(nationalIdentity, name, surname, year)) {
             return new ErrorResult(
@@ -172,4 +174,18 @@ public class BusinessRuleManager implements BusinessRuleService{
             return new SuccessResult();
         }
     }
+
+    @Override
+    public Result checkIfTrimmedStringEmptyOrNull(String str){
+        if(Strings.isNullOrEmpty(str)){
+            return new ErrorDataResult<>("Parameter cannot be empty.");
+        } else {
+            if(str.trim().length() == 0){
+                return new ErrorDataResult<>("Parameter cannot be empty.");
+            }
+            return new SuccessResult();
+        }
+
+    }
+
 }

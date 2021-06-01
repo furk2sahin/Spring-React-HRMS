@@ -4,6 +4,7 @@ import kodlamaio.hrms.business.abstracts.EmployerVerifyService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.EmployerVerify;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/employer-verify")
 public class EmployerVerifyController {
 
-    private EmployerVerifyService employerVerifyService;
+    private final EmployerVerifyService employerVerifyService;
 
     @Autowired
     public EmployerVerifyController(EmployerVerifyService employerVerifyService) {
@@ -23,8 +24,8 @@ public class EmployerVerifyController {
     }
 
     @PostMapping("/verify/{employerUuid}/{personnelUuid}")
-    public DataResult<EmployerVerify> verify(@PathVariable("employerUuid") UUID employerUuid,
-                                             @PathVariable("personnelUuid") UUID personnelUuid){
+    public ResponseEntity<DataResult<EmployerVerify>> verify(@PathVariable("employerUuid") UUID employerUuid,
+                                                             @PathVariable("personnelUuid") UUID personnelUuid){
         return employerVerifyService.verifyEmployer(employerUuid, personnelUuid);
     }
 }

@@ -27,17 +27,17 @@ public class JobPositionsController {
     }
 
     @GetMapping("/get-by-job-name/{jobName}")
-    public DataResult<JobPosition> getByJobName(@PathVariable("jobName") String jobName){
+    public ResponseEntity<DataResult<JobPosition>> getByJobName(@PathVariable("jobName") String jobName){
         return jobPositionService.getByName(jobName);
     }
 
     @PostMapping("/add-job-position")
-    public ResponseEntity<DataResult<JobPosition>> add(@Valid @RequestBody JobPosition jobPosition){
+    public ResponseEntity<ResponseEntity<DataResult<JobPosition>>> add(@Valid @RequestBody JobPosition jobPosition){
         return ResponseEntity.ok(jobPositionService.add(jobPosition));
     }
 
     @GetMapping("/getAllPaged")
-    public DataResult<List<JobPosition>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<DataResult<List<JobPosition>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
                                                      @RequestParam("pageSize") int pageSize){
         return jobPositionService.getAllPaged(pageNumber, pageSize);
     }

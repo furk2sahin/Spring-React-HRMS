@@ -1,6 +1,5 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
 import kodlamaio.hrms.business.rules.BusinessRuleService;
@@ -13,6 +12,7 @@ import kodlamaio.hrms.model.concretes.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class EmployerManager implements EmployerService {
     }
 
     @Override
-    public DataResult<Employer> add(Employer employer) {
+    public ResponseEntity<DataResult<Employer>> add(Employer employer) {
         Result result = ResultChecker.check(Arrays.asList(
                 businessRuleService.checkIfEmailExists(employer.getEmail()),
                 businessRuleService.checkIfEmailContainsWebSiteDomain(employer.getEmail(), employer.getWebAddress()),
@@ -61,21 +61,21 @@ public class EmployerManager implements EmployerService {
                             dataResult.getData().getUuid() + "/"
                             +verificationCode.getCode()
             );
-            return dataResult;
+            return ResponseEntity.ok(dataResult);
         } else {
-            return new ErrorDataResult<>(result.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
         }
     }
 
     @Override
-    public DataResult<List<Employer>> getAllPaged(int pageNo, int pageSize) {
+    public ResponseEntity<DataResult<List<Employer>>> getAllPaged(int pageNo, int pageSize) {
         DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-            return new SuccessDataResult<>(employerDao.findAll(pageable).getContent(),
-                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+            return ResponseEntity.ok(new SuccessDataResult<>(employerDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize));
         } else {
-            return result;
+            return ResponseEntity.badRequest().body(result);
         }
     }
 

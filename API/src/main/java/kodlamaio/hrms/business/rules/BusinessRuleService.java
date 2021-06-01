@@ -23,4 +23,5 @@ public interface BusinessRuleService {
     Result checkIfUuidValid(UUID uuid, String person);
     Result checkIfEmailExists(String email);
     Result checkIfUserInformationCorrect(String nationalIdentity, String name, String surname, int year);
+    Result checkIfTrimmedStringEmptyOrNull(String str);
 }

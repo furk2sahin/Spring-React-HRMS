@@ -10,6 +10,7 @@ import kodlamaio.hrms.model.concretes.VerificationCode;
 import kodlamaio.hrms.repositories.EmployerDao;
 import kodlamaio.hrms.repositories.VerificationCodeDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -40,28 +41,30 @@ public class VerificationCodeManager implements VerificationCodeService {
     }
 
     @Override
-    public Result confirm(VerificationCode code, String verificationCode) {
+    public ResponseEntity<Result> confirm(VerificationCode code, String verificationCode) {
         if(code.getCode().equals(verificationCode)){
             code.setConfirmed(true);
             verificationCodeDao.save(code);
             Employer employer = employerDao.findByUuid(code.getUser().getUuid()).orElse(null);
             employerVerifyService.add(employer);
-            return new SuccessResult("Thank you for confirming your account! " +
-                        "Please contact system personnel to verify your account!");
-
+            return ResponseEntity.ok(new SuccessResult("Thank you for confirming your account! " +
+                        "Please contact system personnel to verify your account!"
+            ));
         } else{
-            return new ErrorResult("Your verification code did not match.");
+            return ResponseEntity.badRequest().body(new ErrorResult("Your verification code did not match."));
         }
     }
 
     @Override
-    public DataResult<VerificationCode> findByUserUuid(UUID uuid) {
+    public ResponseEntity<DataResult<VerificationCode>> findByUserUuid(UUID uuid) {
         VerificationCode code = verificationCodeDao.findByUserUuid(uuid)
                 .orElse(null);
         if(code == null){
-            return new ErrorDataResult<>("No verification code found with given user uuid.");
+            return ResponseEntity.badRequest().body(
+                    new ErrorDataResult<>("No verification code found with given user uuid."
+            ));
         } else {
-            return new SuccessDataResult<>(code, "Code found!");
+            return ResponseEntity.ok(new SuccessDataResult<>(code, "Code found!"));
         }
     }
 }

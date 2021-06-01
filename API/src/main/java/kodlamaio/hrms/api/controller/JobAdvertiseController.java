@@ -5,6 +5,7 @@ import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.JobAdvertise;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/job-advertise")
 public class JobAdvertiseController {
 
-    private JobAdvertiseService jobAdvertiseService;
+    private final JobAdvertiseService jobAdvertiseService;
 
     @Autowired
     public JobAdvertiseController(JobAdvertiseService jobAdvertiseService) {
@@ -42,40 +43,40 @@ public class JobAdvertiseController {
             "sortId=7 -> for sort BY_EXPIRATION_DATE_DESC ----- " +
             "sortId=8 -> for sort BY_EXPIRATION_DATE_ASC")
     @GetMapping("/findAllSorted")
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueSorted(@RequestParam("sortId") int sortId){
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueSorted(@RequestParam("sortId") int sortId){
         return jobAdvertiseService.findAllByActiveTrueSorted(sortId);
     }
 
     @GetMapping("/findAllByEmployerUuid")
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployerUuid(@RequestParam("uuid") UUID uuid){
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndEmployerUuid(@RequestParam("uuid") UUID uuid){
         return jobAdvertiseService.findAllByActiveTrueAndEmployerUuid(uuid);
     }
 
     @GetMapping("/findAllByCityId")
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndCityId(@RequestParam("id") Long id){
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndCityId(@RequestParam("id") Long id){
         return jobAdvertiseService.findAllByActiveTrueAndCityId(id);
     }
 
     @GetMapping("/findAllByJobPositionId")
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndJobPositionId(@RequestParam("id") Long id){
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndJobPositionId(@RequestParam("id") Long id){
         return jobAdvertiseService.findAllByActiveTrueAndJobPositionId(id);
     }
 
     @GetMapping("/findAllByCompanyNameContains")
-    public DataResult<List<JobAdvertise>> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(
             @RequestParam("name") String name){
         return jobAdvertiseService.findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(name);
     }
 
     @GetMapping("/findAllByActiveTruePaged")
-    public DataResult<List<JobAdvertise>> findAllByActiveTruePaged(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTruePaged(@RequestParam("pageNumber") int pageNumber,
                                                                    @RequestParam("pageSize") int pageSize){
         return jobAdvertiseService.findAllByActiveTruePaged(pageNumber, pageSize);
     }
 
 
     @PutMapping("/updateStatus")
-    public DataResult<JobAdvertise> update(@RequestParam("id") Long id,
+    public ResponseEntity<DataResult<JobAdvertise>> update(@RequestParam("id") Long id,
                                            @RequestParam("active") boolean active){
         return jobAdvertiseService.update(id, active);
     }

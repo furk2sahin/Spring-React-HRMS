@@ -1,6 +1,5 @@
 package kodlamaio.hrms.business.concretes;
 
-import kodlamaio.hrms.business.rules.BusinessRuleManager;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.business.abstracts.VerificationCodeService;
 import kodlamaio.hrms.business.rules.BusinessRuleService;
@@ -13,6 +12,7 @@ import kodlamaio.hrms.model.concretes.Candidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -43,11 +43,11 @@ public class CandidateManager implements CandidateService {
     }
 
     @Override
-    public DataResult<Candidate> add(Candidate candidate) {
+    public ResponseEntity<DataResult<Candidate>> add(Candidate candidate) {
         if(candidate.getBirthDate() == null){
-            return new ErrorDataResult<>(
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(
                     "BirthDate cannot be null."
-            );
+            ));
         }
         Result result = ResultChecker.check(Arrays.asList(
                 businessRuleService.checkIfEmailExists(candidate.getEmail()),
@@ -71,21 +71,21 @@ public class CandidateManager implements CandidateService {
                             dataResult.getData().getUuid() + "/"
                             +verificationCode.getCode()
             );
-            return dataResult;
+            return ResponseEntity.ok(dataResult);
         } else {
-            return new ErrorDataResult<>(result.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
         }
     }
 
     @Override
-    public DataResult<List<Candidate>> getAllPaged(int pageNo, int pageSize) {
+    public ResponseEntity<DataResult<List<Candidate>>> getAllPaged(int pageNo, int pageSize) {
         DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-            return new SuccessDataResult<>(candidateDao.findAll(pageable).getContent(),
-                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+            return ResponseEntity.ok(new SuccessDataResult<>(candidateDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize));
         } else {
-            return result;
+            return ResponseEntity.badRequest().body(result);
         }
     }
 

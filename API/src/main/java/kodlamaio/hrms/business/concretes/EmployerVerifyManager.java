@@ -11,6 +11,7 @@ import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import kodlamaio.hrms.repositories.EmployerVerifyDao;
 import kodlamaio.hrms.repositories.SystemPersonnelDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -41,7 +42,7 @@ public class EmployerVerifyManager implements EmployerVerifyService {
     }
 
     @Override
-    public DataResult<EmployerVerify> verifyEmployer(UUID employerUuid, UUID systemPersonnelUuid) {
+    public ResponseEntity<DataResult<EmployerVerify>> verifyEmployer(UUID employerUuid, UUID systemPersonnelUuid) {
         EmployerVerify employerVerify = employerVerifyDao.findByEmployerUuid(employerUuid).orElse(null);
         SystemPersonnel systemPersonnel = systemPersonnelDao.findByUuid(systemPersonnelUuid).orElse(null);
 
@@ -56,12 +57,12 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         if(result.isSuccess()){
             employerVerify.setSystemPersonnel(systemPersonnel);
             employerVerify.setVerified(true);
-            return new SuccessDataResult<>(
+            return ResponseEntity.ok(new SuccessDataResult<>(
                     employerVerifyDao.save(employerVerify),
                     "Employer verified successfully."
-            );
+            ));
         } else {
-            return new ErrorDataResult<>(result.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
         }
     }
 

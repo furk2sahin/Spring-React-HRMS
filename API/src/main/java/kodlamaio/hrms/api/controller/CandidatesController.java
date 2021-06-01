@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.Candidate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,12 +28,12 @@ public class CandidatesController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid Candidate candidate){
+    public ResponseEntity<DataResult<Candidate>> add(@RequestBody @Valid Candidate candidate){
         return candidateService.add(candidate);
     }
 
     @GetMapping("/getAllPaged")
-    public DataResult<List<Candidate>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<DataResult<List<Candidate>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
                                                                    @RequestParam("pageSize") int pageSize){
         return candidateService.getAllPaged(pageNumber, pageSize);
     }

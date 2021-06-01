@@ -2,9 +2,9 @@ package kodlamaio.hrms.api.controller;
 
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,13 +27,13 @@ public class EmployersController {
     }
 
     @PostMapping("/add")
-    public Result add(@RequestBody @Valid Employer employer){
+    public ResponseEntity<DataResult<Employer>> add(@RequestBody @Valid Employer employer){
         return employerService.add(employer);
     }
 
     @GetMapping("/getAllPaged")
-    public DataResult<List<Employer>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
-                                                   @RequestParam("pageSize") int pageSize){
+    public ResponseEntity<DataResult<List<Employer>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
+                                                                  @RequestParam("pageSize") int pageSize){
         return employerService.getAllPaged(pageNumber, pageSize);
     }
 }

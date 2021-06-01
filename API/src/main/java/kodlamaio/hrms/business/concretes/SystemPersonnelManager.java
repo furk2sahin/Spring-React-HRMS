@@ -9,6 +9,7 @@ import kodlamaio.hrms.repositories.SystemPersonnelDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -28,30 +29,31 @@ public class SystemPersonnelManager implements SystemPersonnelService {
     }
 
     @Override
-    public DataResult<SystemPersonnel> add(SystemPersonnel systemPersonnel) {
+    public ResponseEntity<DataResult<SystemPersonnel>> add(SystemPersonnel systemPersonnel) {
         Result result = ResultChecker.check(Arrays.asList(
                 businessRuleService.checkIfEmailExists(systemPersonnel.getEmail()),
                 businessRuleService.checkIfPasswordsMatch(systemPersonnel.getPassword(), systemPersonnel.getPasswordCheck())
         ));
         if(result.isSuccess()){
-            return new SuccessDataResult<>(
+            return ResponseEntity.ok(new SuccessDataResult<>(
                     systemPersonnelDao.save(systemPersonnel),
                     "System personnel saved successfully."
-            );
+            ));
         } else {
-            return new ErrorDataResult<>(result.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
         }
     }
 
     @Override
-    public DataResult<List<SystemPersonnel>> getAllPaged(int pageNo, int pageSize) {
+    public ResponseEntity<DataResult<List<SystemPersonnel>>> getAllPaged(int pageNo, int pageSize) {
         DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
         if(result.isSuccess()){
             Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-            return new SuccessDataResult<>(systemPersonnelDao.findAll(pageable).getContent(),
-                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize);
+            return ResponseEntity.ok(new SuccessDataResult<>(systemPersonnelDao.findAll(pageable).getContent(),
+                    "Data paged successfully. PageNo: " + (pageNo-1) + " PageSize: " + pageSize
+            ));
         } else {
-            return result;
+            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
         }
     }
 }
