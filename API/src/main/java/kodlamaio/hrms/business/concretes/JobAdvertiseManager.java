@@ -36,9 +36,9 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     @Override
     public DataResult<JobAdvertise> add(JobAdvertise jobAdvertise, int expiryInDays) {
         Result result = ResultChecker.check(Arrays.asList(
-                businessRuleService.checkIfCityIdValid(jobAdvertise.getCity().getId()),
-                businessRuleService.checkIfJobIdValid(jobAdvertise.getJobPosition().getId()),
-                businessRuleService.checkIfEmployerIdValid(jobAdvertise.getEmployer().getId()),
+                businessRuleService.checkIfIdValid((long)jobAdvertise.getCity().getId(), "City"),
+                businessRuleService.checkIfIdValid(jobAdvertise.getJobPosition().getId(), "Job"),
+                businessRuleService.checkIfIdValid(jobAdvertise.getEmployer().getId(), "Employer"),
                 businessRuleService.checkIfSalariesValid(jobAdvertise.getMaxSalary(), jobAdvertise.getMinSalary()),
                 businessRuleService.checkIfOpenPositionValid(jobAdvertise.getOpenPositionCount()),
                 businessRuleService.checkIfExpiryDayValid(expiryInDays)
@@ -94,8 +94,8 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     }
 
     @Override
-    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndCityId(Long id) {
-        DataResult result = businessRuleService.checkIfIdValid(id);
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndCityId(Short id) {
+        DataResult result = businessRuleService.checkIfIdValid((long)id, "City");
         if(!result.isSuccess()){
             return ResponseEntity.badRequest().body(result);
         }
@@ -114,7 +114,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
 
     @Override
     public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndJobPositionId(Long id) {
-        DataResult result = businessRuleService.checkIfIdValid(id);
+        DataResult result = businessRuleService.checkIfIdValid(id, "Job");
         if(!result.isSuccess()){
             return ResponseEntity.badRequest().body(result);
         }

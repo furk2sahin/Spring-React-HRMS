@@ -13,10 +13,7 @@ public interface BusinessRuleService {
     Result checkIfEmailContainsWebSiteDomain(String email, String website);
     Result checkIfEmployerVerifyExists(EmployerVerify employerVerify);
     Result checkIfSystemPersonnelExists(SystemPersonnel systemPersonnel);
-    DataResult<Object> checkIfIdValid(Long id);
-    DataResult<Object> checkIfCityIdValid(Long id);
-    DataResult<Object> checkIfJobIdValid(Long id);
-    DataResult<Object> checkIfEmployerIdValid(Long id);
+    DataResult<Object> checkIfIdValid(Long id, String property);
     DataResult<Object> checkIfSalariesValid(int maxSalary, int minSalary);
     DataResult<Object> checkIfOpenPositionValid(int id);
     DataResult<Object> checkIfExpiryDayValid(int id);

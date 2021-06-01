@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/verification-code")
 public class VerificationCodesController {
 
-    private VerificationCodeService verificationCodeService;
+    private final VerificationCodeService verificationCodeService;
 
     @Autowired
     public VerificationCodesController(VerificationCodeService verificationCodeService) {
@@ -25,12 +25,16 @@ public class VerificationCodesController {
     @GetMapping("/confirm/{uuid}/{code}")
     public ResponseEntity<Result> confirm(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
         ResponseEntity<DataResult<VerificationCode>> result = verificationCodeService.findByUserUuid(uuid);
-        if(!result.getBody().isSuccess()){
-            return ResponseEntity.badRequest().body(new ErrorResult(result.getBody().getMessage()));
-        } else if(result.getBody().getData().isConfirmed()){
-            return ResponseEntity.badRequest().body(new ErrorResult("Your account already confirmed."));
-        } else{
-            return verificationCodeService.confirm(result.getBody().getData(), verificationCode);
-        }
+        DataResult<VerificationCode> body = result.getBody();
+        if(body != null){
+            if(!body.isSuccess()){
+                return ResponseEntity.badRequest().body(new ErrorResult(body.getMessage()));
+            } else if(body.getData().isConfirmed()){
+                return ResponseEntity.badRequest().body(new ErrorResult("Your account already confirmed."));
+            } else{
+                return verificationCodeService.confirm(body.getData(), verificationCode);
+            }
+        } else return ResponseEntity.badRequest().body(new ErrorResult("Error! Body is null"));
     }
+
 }

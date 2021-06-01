@@ -2,7 +2,6 @@ package kodlamaio.hrms.api.controller;
 
 import kodlamaio.hrms.business.abstracts.SystemPersonnelService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import kodlamaio.hrms.model.dtos.concretes.SystemPersonnelGetDto;
 import kodlamaio.hrms.model.dtos.concretes.SystemPersonnelPostDto;
 import org.springframework.beans.factory.annotation.Autowired;

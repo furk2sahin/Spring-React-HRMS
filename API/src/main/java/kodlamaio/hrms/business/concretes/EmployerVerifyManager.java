@@ -41,7 +41,7 @@ public class EmployerVerifyManager implements EmployerVerifyService {
     }
 
     @Override
-    public ResponseEntity<DataResult<EmployerVerify>> verifyEmployer(UUID employerUuid, UUID systemPersonnelUuid) {
+    public ResponseEntity<Result> verifyEmployer(UUID employerUuid, UUID systemPersonnelUuid) {
         EmployerVerify employerVerify = employerVerifyDao.findByEmployerUuid(employerUuid).orElse(null);
         SystemPersonnel systemPersonnel = systemPersonnelDao.findByUuid(systemPersonnelUuid).orElse(null);
 
@@ -56,12 +56,10 @@ public class EmployerVerifyManager implements EmployerVerifyService {
         if(result.isSuccess()){
             employerVerify.setSystemPersonnel(systemPersonnel);
             employerVerify.setVerified(true);
-            return ResponseEntity.ok(new SuccessDataResult<>(
-                    employerVerifyDao.save(employerVerify),
-                    "Employer verified successfully."
-            ));
+            employerVerifyDao.save(employerVerify);
+            return ResponseEntity.ok(new SuccessResult("Employer verified successfully."));
         } else {
-            return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
+            return ResponseEntity.badRequest().body(new ErrorResult(result.getMessage()));
         }
     }
 

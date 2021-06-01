@@ -11,7 +11,7 @@ public interface JobAdvertiseDao extends JpaRepository<JobAdvertise, Long> {
     List<JobAdvertise> findAllByActiveTrue();
     List<JobAdvertise> findAllByActiveTrue(Sort sort);
     List<JobAdvertise> findAllByActiveTrueAndEmployerUuid(UUID uuid);
-    List<JobAdvertise> findAllByActiveTrueAndCityId(Long id);
+    List<JobAdvertise> findAllByActiveTrueAndCityId(Short id);
     List<JobAdvertise> findAllByActiveTrueAndJobPositionId(Long id);
     List<JobAdvertise> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(String companyName);
 }

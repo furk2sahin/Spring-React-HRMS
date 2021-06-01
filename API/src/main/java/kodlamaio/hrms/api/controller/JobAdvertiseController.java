@@ -53,7 +53,7 @@ public class JobAdvertiseController {
     }
 
     @GetMapping("/findAllByCityId")
-    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndCityId(@RequestParam("id") Long id){
+    public ResponseEntity<DataResult<List<JobAdvertise>>> findAllByActiveTrueAndCityId(@RequestParam("id") Short id){
         return jobAdvertiseService.findAllByActiveTrueAndCityId(id);
     }
 

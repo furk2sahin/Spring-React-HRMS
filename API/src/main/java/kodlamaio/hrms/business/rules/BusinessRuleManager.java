@@ -76,36 +76,9 @@ public class BusinessRuleManager implements BusinessRuleService{
     }
 
     @Override
-    public DataResult<Object> checkIfIdValid(Long id){
+    public DataResult<Object> checkIfIdValid(Long id, String property){
         if(id < 1){
-            return new ErrorDataResult<>("Id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    @Override
-    public DataResult<Object> checkIfCityIdValid(Long id){
-        if(id < 1 || id > 81){
-            return new ErrorDataResult<>("City id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    @Override
-    public DataResult<Object> checkIfJobIdValid(Long id){
-        if(id < 1){
-            return new ErrorDataResult<>("Job id is not valid.");
-        } else {
-            return new SuccessDataResult<>();
-        }
-    }
-
-    @Override
-    public DataResult<Object> checkIfEmployerIdValid(Long id){
-        if(id < 1){
-            return new ErrorDataResult<>("Employer id is not valid.");
+            return new ErrorDataResult<>(property + " Id is not valid.");
         } else {
             return new SuccessDataResult<>();
         }
