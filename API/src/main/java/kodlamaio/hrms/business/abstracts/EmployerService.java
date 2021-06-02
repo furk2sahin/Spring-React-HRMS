@@ -11,4 +11,5 @@ public interface EmployerService {
     DataResult<List<EmployerGetDto>> getAll();
     ResponseEntity<DataResult<EmployerGetDto>> add(EmployerPostDto employerPostDto);
     ResponseEntity<DataResult<List<EmployerGetDto>>> getAllPaged(int pageNo, int pageSize);
+    boolean existsById(Long id);
 }

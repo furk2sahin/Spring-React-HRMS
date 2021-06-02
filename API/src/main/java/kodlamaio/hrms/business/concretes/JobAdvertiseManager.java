@@ -1,6 +1,8 @@
 package kodlamaio.hrms.business.concretes;
 
+import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.JobAdvertiseService;
+import kodlamaio.hrms.business.abstracts.JobPositionService;
 import kodlamaio.hrms.business.rules.BusinessRuleService;
 import kodlamaio.hrms.core.enums.JobAdvertiseSort;
 import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
@@ -29,13 +31,20 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     private final JobAdvertiseDao jobAdvertiseDao;
     private final BusinessRuleService businessRuleService;
     private final JobAdvertiseMapper jobAdvertiseMapper;
+    private final JobPositionService jobPositionService;
+    private final EmployerService employerService;
+
     @Autowired
     public JobAdvertiseManager(JobAdvertiseDao jobAdvertiseDao,
                                BusinessRuleService businessRuleService,
-                               JobAdvertiseMapper jobAdvertiseMapper) {
+                               JobAdvertiseMapper jobAdvertiseMapper,
+                               JobPositionService jobPositionService,
+                               EmployerService employerService) {
         this.jobAdvertiseDao = jobAdvertiseDao;
         this.businessRuleService = businessRuleService;
         this.jobAdvertiseMapper = jobAdvertiseMapper;
+        this.jobPositionService = jobPositionService;
+        this.employerService = employerService;
     }
 
     @Override
@@ -46,7 +55,15 @@ public class JobAdvertiseManager implements JobAdvertiseService {
                 businessRuleService.checkIfIdValid(jobAdvertisePostDto.getEmployerId(), "Employer"),
                 businessRuleService.checkIfSalariesValid(jobAdvertisePostDto.getMaxSalary(), jobAdvertisePostDto.getMinSalary()),
                 businessRuleService.checkIfOpenPositionValid(jobAdvertisePostDto.getOpenPositionCount()),
-                businessRuleService.checkIfExpiryDayValid(expiryInDays)
+                businessRuleService.checkIfExpiryDayValid(expiryInDays),
+                businessRuleService.checkIfBooleanValueTrue(
+                        jobPositionService.existsById(jobAdvertisePostDto.getJobPositionId()),
+                        "No job found with given id."
+                ),
+                businessRuleService.checkIfBooleanValueTrue(
+                        employerService.existsById(jobAdvertisePostDto.getEmployerId()),
+                        "No employer found with given id."
+                )
         ));
 
         if(result.isSuccess()){
@@ -171,7 +188,7 @@ public class JobAdvertiseManager implements JobAdvertiseService {
     public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTruePaged(int pageNumber, int pageSize) {
         DataResult dataResult = businessRuleService.checkIfPageNoAndPageSizeValid(pageNumber, pageSize);
         if(dataResult.isSuccess()){
-            Pageable pageable = PageRequest.of(pageNumber, pageSize);
+            Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
             return ResponseEntity.ok(new SuccessDataResult<>(
                     jobAdvertiseMapper.map(jobAdvertiseDao.findAll(pageable).getContent()),
                     "Data listed successfully. Page no:" + pageNumber +  " and Page size: " + pageSize

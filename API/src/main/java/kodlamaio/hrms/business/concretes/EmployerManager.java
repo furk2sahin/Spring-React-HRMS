@@ -90,6 +90,11 @@ public class EmployerManager implements EmployerService {
         }
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return employerDao.existsById(id);
+    }
+
     private VerificationCode addVerificationCode(Employer employer){
         return verificationCodeService.add(employer);
     }

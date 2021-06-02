@@ -64,8 +64,6 @@ public class JobPositionManager implements JobPositionService {
         }
     }
 
-
-
     @Override
     public ResponseEntity<DataResult<List<JobPosition>>> getAllPaged(int pageNo, int pageSize) {
         DataResult result = businessRuleService.checkIfPageNoAndPageSizeValid(pageNo, pageSize);
@@ -77,5 +75,10 @@ public class JobPositionManager implements JobPositionService {
         } else {
             return ResponseEntity.badRequest().body(result);
         }
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jobPositionDao.existsById(id);
     }
 }

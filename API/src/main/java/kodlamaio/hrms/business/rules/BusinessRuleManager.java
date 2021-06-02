@@ -77,11 +77,13 @@ public class BusinessRuleManager implements BusinessRuleService{
 
     @Override
     public DataResult<Object> checkIfIdValid(Long id, String property){
-        if(id < 1){
+        if(id == null)
             return new ErrorDataResult<>(property + " Id is not valid.");
-        } else {
+        else if(id < 1)
+            return new ErrorDataResult<>(property + " Id is not valid.");
+        else
             return new SuccessDataResult<>();
-        }
+
     }
 
     @Override
@@ -100,7 +102,7 @@ public class BusinessRuleManager implements BusinessRuleService{
     @Override
     public DataResult<Object> checkIfOpenPositionValid(int id){
         if(id < 1){
-            return new ErrorDataResult<>("Job id is not valid.");
+            return new ErrorDataResult<>("Open position number is not valid.");
         } else {
             return new SuccessDataResult<>();
         }
@@ -161,4 +163,12 @@ public class BusinessRuleManager implements BusinessRuleService{
 
     }
 
+    @Override
+    public Result checkIfBooleanValueTrue(boolean value, String message) {
+        if(value){
+            return new SuccessResult();
+        } else {
+            return new ErrorDataResult<>(message);
+        }
+    }
 }

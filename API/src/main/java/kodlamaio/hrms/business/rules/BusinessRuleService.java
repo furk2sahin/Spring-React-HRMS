@@ -21,4 +21,5 @@ public interface BusinessRuleService {
     Result checkIfEmailExists(String email);
     Result checkIfUserInformationCorrect(String nationalIdentity, String name, String surname, int year);
     Result checkIfTrimmedStringEmptyOrNull(String str);
+    Result checkIfBooleanValueTrue(boolean value, String message);
 }

@@ -71,7 +71,8 @@ public class JobAdvertiseController {
     }
 
     @GetMapping("/findAllByActiveTruePaged")
-    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTruePaged(@RequestParam("pageNumber") int pageNumber,
+    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTruePaged(
+                                                                    @RequestParam("pageNumber") int pageNumber,
                                                                    @RequestParam("pageSize") int pageSize){
         return jobAdvertiseService.findAllByActiveTruePaged(pageNumber, pageSize);
     }

@@ -12,4 +12,5 @@ public interface JobPositionService {
     ResponseEntity<DataResult<JobPosition>> getByName(String name);
     ResponseEntity<DataResult<JobPosition>> add(JobPositionDto jobPositionDto);
     ResponseEntity<DataResult<List<JobPosition>>> getAllPaged(int pageNo, int pageSize);
+    boolean existsById(Long id);
 }
