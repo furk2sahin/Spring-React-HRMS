@@ -79,3 +79,13 @@ INSERT INTO CITIES (name) VALUES('ADANA'),
                                 ('KİLİS'),
                                 ('OSMANİYE'),
                                 ('DÜZCE');
+insert into candidate_education_grade (id, grade)
+values (1, 'Hazırlık'),
+       (2, '1'),
+       (3, '2'),
+       (4, '3'),
+       (5, '4'),
+       (6, '5');
+
+insert into candidate_education_degree (id, degree)
+values (1, 'Lise'),(2, 'Ön Lisans'),(3, 'Lisans'),(4, 'Doktora'),(5, 'Yüksek Lisans');

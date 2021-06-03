@@ -44,5 +44,4 @@ public class CandidateEducation {
     @ManyToOne
     @JoinColumn(name = "education_grade")
     private CandidateEducationGrade candidateEducationGrade;
-
 }

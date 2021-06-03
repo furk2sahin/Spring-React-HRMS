@@ -17,5 +17,5 @@ public class CandidateEducationGrade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private byte id;
 
-    private byte grade;
+    private String grade;
 }
