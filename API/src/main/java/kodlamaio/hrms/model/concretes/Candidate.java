@@ -1,11 +1,13 @@
 package kodlamaio.hrms.model.concretes;
 
 import kodlamaio.hrms.core.entities.User;
+import kodlamaio.hrms.model.concretes.cv.CandidateCV;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +26,7 @@ public class Candidate extends User {
 
     @Column(nullable = false)
     private Date birthDate;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidate")
+    private List<CandidateCV> candidateCVs;
 }
