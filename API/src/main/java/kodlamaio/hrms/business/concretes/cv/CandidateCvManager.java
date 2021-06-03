@@ -23,7 +23,11 @@ public class CandidateCvManager implements CandidateCvService {
 
     @Override
     public ResponseEntity<DataResult<CandidateCV>> add(CandidateCV candidateCV) {
-        candidateCV.getCandidateEducations().forEach(candidateEducation -> candidateEducation.setCandidateCV(candidateCV));
+        candidateCV.getCandidateEducations()
+                .forEach(candidateEducation -> candidateEducation.setCandidateCV(candidateCV));
+        candidateCV.getCandidateJobExperiences()
+                .forEach(candidateJobExperience -> candidateJobExperience.setCandidateCV(candidateCV));
+
         return ResponseEntity.ok(new SuccessDataResult<>(candidateCvDao.save(candidateCV)));
     }
 

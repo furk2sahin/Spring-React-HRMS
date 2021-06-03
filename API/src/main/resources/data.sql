@@ -85,7 +85,8 @@ values (1, 'Hazırlık'),
        (3, '2'),
        (4, '3'),
        (5, '4'),
-       (6, '5');
+       (6, '5'),
+       (7, 'Mezun');
 
 insert into candidate_education_degree (id, degree)
 values (1, 'Lise'),(2, 'Ön Lisans'),(3, 'Lisans'),(4, 'Doktora'),(5, 'Yüksek Lisans');
