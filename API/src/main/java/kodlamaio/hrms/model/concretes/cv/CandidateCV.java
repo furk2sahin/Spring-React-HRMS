@@ -57,4 +57,12 @@ public class CandidateCV {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
     @JsonIgnoreProperties("candidateCV")
     private List<CandidateJobExperience> candidateJobExperiences;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
+    @JsonIgnoreProperties("candidateCV")
+    private List<CandidateLanguage> candidateLanguages;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
+    @JsonIgnoreProperties("candidateCV")
+    private List<CandidateTechnology> candidateTechnologies;
 }

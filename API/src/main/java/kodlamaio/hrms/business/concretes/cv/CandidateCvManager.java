@@ -27,7 +27,10 @@ public class CandidateCvManager implements CandidateCvService {
                 .forEach(candidateEducation -> candidateEducation.setCandidateCV(candidateCV));
         candidateCV.getCandidateJobExperiences()
                 .forEach(candidateJobExperience -> candidateJobExperience.setCandidateCV(candidateCV));
-
+        candidateCV.getCandidateLanguages()
+                .forEach(candidateLanguage -> candidateLanguage.setCandidateCV(candidateCV));
+        candidateCV.getCandidateTechnologies()
+                .forEach(candidateTechnology -> candidateTechnology.setCandidateCV(candidateCV));
         return ResponseEntity.ok(new SuccessDataResult<>(candidateCvDao.save(candidateCV)));
     }
 
