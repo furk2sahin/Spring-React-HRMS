@@ -171,4 +171,13 @@ public class BusinessRuleManager implements BusinessRuleService{
             return new ErrorDataResult<>(message);
         }
     }
+
+    @Override
+    public Result checkIfFileIsAnImage(String fileName) {
+        if(fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg")){
+            return new SuccessResult();
+        } else {
+            return new ErrorDataResult<>("Accepted image formats: .png, .jpg, .jpeg");
+        }
+    }
 }

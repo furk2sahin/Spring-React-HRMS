@@ -2,14 +2,18 @@ package kodlamaio.hrms.core.exceptionHandler;
 
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
+import kodlamaio.hrms.core.utilities.results.Result;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.hibernate.PropertyValueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.LimitExceededException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +35,18 @@ public class Handler {
     public ResponseEntity<Object> handleNullProperties(PropertyValueException ex) {
         String[] message = ex.getMessage().split("\\.");
         return new ResponseEntity<>(new ErrorResult(message[message.length-1] + " was empty"),
+                HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<Result> handleMediaType(HttpMediaTypeNotSupportedException ex) {
+        return new ResponseEntity<>(new ErrorResult("Unsupported Media Type"),
+                HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(SizeLimitExceededException.class)
+    public ResponseEntity<Result> handleMediaType(SizeLimitExceededException ex) {
+        return new ResponseEntity<>(new ErrorResult("Max File Size: 5 MB"),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 

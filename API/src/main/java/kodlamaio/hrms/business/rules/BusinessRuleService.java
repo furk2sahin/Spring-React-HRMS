@@ -22,4 +22,5 @@ public interface BusinessRuleService {
     Result checkIfUserInformationCorrect(String nationalIdentity, String name, String surname, int year);
     Result checkIfTrimmedStringEmptyOrNull(String str);
     Result checkIfBooleanValueTrue(boolean value, String message);
+    Result checkIfFileIsAnImage(String fileName);
 }
