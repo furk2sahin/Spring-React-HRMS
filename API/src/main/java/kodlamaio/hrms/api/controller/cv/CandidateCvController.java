@@ -1,7 +1,6 @@
 package kodlamaio.hrms.api.controller.cv;
 
 import kodlamaio.hrms.business.abstracts.cv.CandidateCvService;
-import kodlamaio.hrms.core.adapter.abstracts.FileService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.cv.CandidateCV;

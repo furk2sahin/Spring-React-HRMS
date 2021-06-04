@@ -1,5 +1,6 @@
 package kodlamaio.hrms.model.concretes;
 
+import kodlamaio.hrms.model.concretes.local.City;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;

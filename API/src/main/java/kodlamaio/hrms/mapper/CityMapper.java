@@ -1,6 +1,6 @@
 package kodlamaio.hrms.mapper;
 
-import kodlamaio.hrms.model.concretes.City;
+import kodlamaio.hrms.model.concretes.local.City;
 import kodlamaio.hrms.model.dtos.concretes.CityGetDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

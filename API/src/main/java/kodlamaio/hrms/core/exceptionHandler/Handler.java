@@ -50,6 +50,13 @@ public class Handler {
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<Result> handleMediaType(NumberFormatException ex) {
+        return new ResponseEntity<>(new ErrorResult(ex.getMessage()),
+                HttpStatus.NOT_ACCEPTABLE);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleJsonExceptions(HttpMessageNotReadableException ex) {
         if(ex.getMessage().contains("birthDate")){

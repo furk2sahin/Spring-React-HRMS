@@ -20,13 +20,13 @@ public class CandidateEducation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String school;
-
     private String department;
 
     private Date startDate;
 
     private Date endDate;
+
+
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp

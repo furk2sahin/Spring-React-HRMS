@@ -1,4 +1,4 @@
-package kodlamaio.hrms.model.concretes;
+package kodlamaio.hrms.model.concretes.local;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
