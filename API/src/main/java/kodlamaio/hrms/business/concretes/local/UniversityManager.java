@@ -23,11 +23,6 @@ public class UniversityManager implements UniversityService {
     }
 
     @Override
-    public ResponseEntity<DataResult<List<University>>> findAll() {
-        return ResponseEntity.ok(new SuccessDataResult<>(universityDao.findAll(), "Data listed successfully"));
-    }
-
-    @Override
     public ResponseEntity<DataResult<University>> findById(Integer id) {
         University university = universityDao.findById(id).orElse(null);
         if(university == null){

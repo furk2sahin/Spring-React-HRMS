@@ -1,12 +1,15 @@
 package kodlamaio.hrms.model.concretes.cv.education;
 
 import kodlamaio.hrms.model.concretes.cv.CandidateCV;
+import kodlamaio.hrms.model.concretes.local.Faculty;
+import kodlamaio.hrms.model.concretes.local.Section;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Entity
@@ -20,13 +23,9 @@ public class CandidateEducation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String department;
-
     private Date startDate;
 
     private Date endDate;
-
-
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
@@ -44,4 +43,8 @@ public class CandidateEducation {
     @ManyToOne
     @JoinColumn(name = "education_grade")
     private CandidateEducationGrade candidateEducationGrade;
+
+    @OneToOne
+    @JoinColumn(name = "section_id")
+    private Section section;
 }

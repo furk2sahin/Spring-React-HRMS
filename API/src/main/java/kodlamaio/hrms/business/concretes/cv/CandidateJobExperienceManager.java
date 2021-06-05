@@ -30,4 +30,12 @@ public class CandidateJobExperienceManager implements CandidateJobExperienceServ
     public ResponseEntity<DataResult<List<CandidateJobExperience>>> getAll() {
         return ResponseEntity.ok(new SuccessDataResult<>(candidateJobExperienceDao.findAll()));
     }
+
+    @Override
+    public ResponseEntity<DataResult<List<CandidateJobExperience>>> findAllByCandidateCVIdOrderByEndDateDesc(Long cvId) {
+        return ResponseEntity.ok(new SuccessDataResult<>(
+                candidateJobExperienceDao.findAllByCandidateCVIdOrderByEndDateDesc(cvId),
+                "Data listed by end date desc"
+        ));
+    }
 }

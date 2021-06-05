@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class CandidateCvController {
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<DataResult<CandidateCV>> add(@RequestPart("image") MultipartFile image,
-                                                       @RequestPart("cv") CandidateCV candidateCV){
+                                                       @RequestPart("cv") @Valid CandidateCV candidateCV){
         return candidateCvService.add(candidateCV, image);
     }
 

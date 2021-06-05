@@ -1,5 +1,6 @@
 package kodlamaio.hrms.core.exceptionHandler;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -57,15 +58,17 @@ public class Handler {
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(AmazonS3Exception.class)
+    public ResponseEntity<Result> handleMediaType(AmazonS3Exception ex) {
+        return new ResponseEntity<>(new ErrorResult("Amazon S3 Connection Error"),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleJsonExceptions(HttpMessageNotReadableException ex) {
-        if(ex.getMessage().contains("birthDate")){
             return new ResponseEntity<>(
-                    new ErrorResult("Wrong birth date format. Pattern should be like 2015-05-20 (YYYY-mm-dd)"),
+                    new ErrorResult("Wrong date format. Pattern should be like 2015-05-20 (YYYY-mm-dd)"),
                     HttpStatus.NOT_ACCEPTABLE
             );
-        }
-        return new ResponseEntity<>(new ErrorResult(ex.getMessage()),
-                HttpStatus.NOT_ACCEPTABLE);
     }
 }

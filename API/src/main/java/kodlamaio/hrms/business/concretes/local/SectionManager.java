@@ -24,11 +24,6 @@ public class SectionManager implements SectionService {
     }
 
     @Override
-    public ResponseEntity<DataResult<List<Section>>> findAll() {
-        return ResponseEntity.ok(new SuccessDataResult<>(sectionDao.findAll(), "Data listed successfully"));
-    }
-
-    @Override
     public ResponseEntity<DataResult<Section>> findById(Integer id) {
         Section section = sectionDao.findById(id).orElse(null);
         if(section == null){
@@ -50,5 +45,10 @@ public class SectionManager implements SectionService {
                 sections,
                 "Data listed successfully."
         ));
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return sectionDao.existsById(id);
     }
 }

@@ -23,11 +23,6 @@ public class FacultyManager implements FacultyService {
     }
 
     @Override
-    public ResponseEntity<DataResult<List<Faculty>>> findAll() {
-        return ResponseEntity.ok(new SuccessDataResult<>(facultyDao.findAll(), "Data listed successfully"));
-    }
-
-    @Override
     public ResponseEntity<DataResult<Faculty>> findById(Integer id) {
         Faculty faculty = facultyDao.findById(id).orElse(null);
         if(faculty == null){

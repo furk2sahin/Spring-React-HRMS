@@ -60,7 +60,10 @@ public class CandidateCvManager implements CandidateCvService {
 
             String fileName = fileService.uploadFile(file);
             candidateCV.setPhotoPath(fileName);
-            return ResponseEntity.ok(new SuccessDataResult<>(candidateCvDao.save(candidateCV)));
+            return ResponseEntity.ok(new SuccessDataResult<>(
+                    candidateCvDao.save(candidateCV),
+                    "Data added successfully."
+            ));
         } else {
             return ResponseEntity.badRequest().body(new ErrorDataResult(result.getMessage()));
         }
@@ -68,18 +71,20 @@ public class CandidateCvManager implements CandidateCvService {
 
     @Override
     public ResponseEntity<DataResult<List<CandidateCV>>> getAll() {
-        return ResponseEntity.ok(new SuccessDataResult<>(candidateCvDao.findAll()));
+        return ResponseEntity.ok(new SuccessDataResult<>(candidateCvDao.findAllByActiveTrue()));
     }
 
     @Override
     public ResponseEntity<Result> updatePhoto(MultipartFile file, Long id) {
         CandidateCV candidateCV = candidateCvDao.findById(id).orElse(null);
         if(candidateCV != null){
-            fileService.deleteFile(candidateCV.getPhotoPath());
-            String fileName = fileService.uploadFile(file);
-            candidateCV.setPhotoPath(fileName);
-            candidateCvDao.save(candidateCV);
-            return ResponseEntity.ok(new SuccessResult("Photo uploaded successfully!"));
+            if(candidateCV.isActive()){
+                fileService.deleteFile(candidateCV.getPhotoPath());
+                String fileName = fileService.uploadFile(file);
+                candidateCV.setPhotoPath(fileName);
+                candidateCvDao.save(candidateCV);
+                return ResponseEntity.ok(new SuccessResult("Photo uploaded successfully!"));
+            } else return ResponseEntity.badRequest().body(new ErrorResult("This candidate CV is inactive."));
         }else {
             return ResponseEntity.badRequest().body(new ErrorResult("Error when updating photo!"));
         }

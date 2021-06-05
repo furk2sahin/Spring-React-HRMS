@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.EmployerVerify;
 import kodlamaio.hrms.model.concretes.SystemPersonnel;
 
+import java.util.Date;
 import java.util.UUID;
 
 public interface BusinessRuleService {
@@ -23,4 +24,5 @@ public interface BusinessRuleService {
     Result checkIfTrimmedStringEmptyOrNull(String str);
     Result checkIfBooleanValueTrue(boolean value, String message);
     Result checkIfFileIsAnImage(String fileName);
+    Result checkDates(Date startDate, Date endDate);
 }

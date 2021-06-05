@@ -9,6 +9,7 @@ import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -179,5 +180,14 @@ public class BusinessRuleManager implements BusinessRuleService{
         } else {
             return new ErrorDataResult<>("Accepted image formats: .png, .jpg, .jpeg");
         }
+    }
+
+    @Override
+    public Result checkDates(Date startDate, Date endDate){
+        if(startDate.after(new Date())){
+            return new ErrorResult("Start date should be before than now");
+        } else if(startDate.after(endDate)){
+            return new ErrorResult("Start date cannot be greater than end date");
+        } else return new SuccessResult();
     }
 }

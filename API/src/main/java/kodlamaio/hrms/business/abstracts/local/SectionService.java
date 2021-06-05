@@ -9,4 +9,5 @@ import java.util.List;
 public interface SectionService {
     ResponseEntity<DataResult<Section>> findById(Integer id);
     ResponseEntity<DataResult<List<Section>>> findByFacultyId(Integer id);
+    boolean existsById(Integer id);
 }

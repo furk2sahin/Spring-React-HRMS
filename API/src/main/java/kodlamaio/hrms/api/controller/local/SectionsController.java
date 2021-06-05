@@ -6,6 +6,7 @@ import kodlamaio.hrms.model.concretes.local.Section;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,12 +24,12 @@ public class SectionsController {
     }
 
     @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<DataResult<Section>> findById(Integer id){
+    public ResponseEntity<DataResult<Section>> findById(@PathVariable("id") Integer id){
         return sectionService.findById(id);
     }
 
     @GetMapping("/find-by-faculty-id/{id}")
-    public ResponseEntity<DataResult<List<Section>>> findByFacultyId(Integer id){
+    public ResponseEntity<DataResult<List<Section>>> findByFacultyId(@PathVariable("id") Integer id){
         return sectionService.findByFacultyId(id);
     }
 }
