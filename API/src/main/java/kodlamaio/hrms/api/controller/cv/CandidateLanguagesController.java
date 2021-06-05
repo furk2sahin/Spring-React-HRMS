@@ -3,6 +3,8 @@ package kodlamaio.hrms.api.controller.cv;
 import kodlamaio.hrms.business.abstracts.cv.CandidateLanguageService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.cv.CandidateLanguage;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateLanguageGetDto;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateLanguagePostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +24,12 @@ public class CandidateLanguagesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DataResult<CandidateLanguage>> add(@RequestBody @Valid CandidateLanguage candidateLanguage){
-        return candidateLanguageService.add(candidateLanguage);
+    public ResponseEntity<DataResult<CandidateLanguageGetDto>> add(@RequestBody @Valid CandidateLanguagePostDto candidateLanguagePostDto){
+        return candidateLanguageService.add(candidateLanguagePostDto);
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<DataResult<List<CandidateLanguage>>> getAll(){
+    public ResponseEntity<DataResult<List<CandidateLanguageGetDto>>> getAll(){
         return candidateLanguageService.getAll();
     }
 }

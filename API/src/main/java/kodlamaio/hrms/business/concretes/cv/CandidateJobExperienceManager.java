@@ -72,7 +72,15 @@ public class CandidateJobExperienceManager implements CandidateJobExperienceServ
                         "No cv position found with given id"
                 ),
                 businessRuleService.checkDates(startDate, endDate),
-                dateDataResult
+                dateDataResult,
+                businessRuleService.checkIfBooleanValueTrue(
+                        !existsByCandidateCVIdAndAndCompanyNameAndJobPositionId(
+                                candidateJobExperiencePostDto.getCandidateCVId(),
+                                candidateJobExperiencePostDto.getCompanyName(),
+                                candidateJobExperiencePostDto.getJobPositionId()
+                        ),
+                        "This Job Experience already exists in your cv"
+                )
         ));
 
         if(!result.isSuccess()){
@@ -99,5 +107,10 @@ public class CandidateJobExperienceManager implements CandidateJobExperienceServ
                 candidateJobExperienceMapper.map(candidateJobExperienceDao.findAllByCandidateCVIdOrderByEndDateDesc(cvId)),
                 "Data listed by end date desc"
         ));
+    }
+
+    @Override
+    public boolean existsByCandidateCVIdAndAndCompanyNameAndJobPositionId(Long candidateCVId, String companyName, Long jobPositionId) {
+        return existsByCandidateCVIdAndAndCompanyNameAndJobPositionId(candidateCVId, companyName, jobPositionId);
     }
 }

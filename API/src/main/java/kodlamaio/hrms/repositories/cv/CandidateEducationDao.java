@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface CandidateEducationDao extends JpaRepository<CandidateEducation, Long> {
     List<CandidateEducation> findAllByCandidateCVIdOrderByEndDateDesc(Long cvId);
+    boolean existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(Long candidateCvId,
+                                                                               Integer sectionId,
+                                                                               byte degreeId);
 }

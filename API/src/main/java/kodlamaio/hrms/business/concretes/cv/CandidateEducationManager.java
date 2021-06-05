@@ -68,7 +68,15 @@ public class CandidateEducationManager implements CandidateEducationService {
                         candidateCvService.existsById(candidateEducationPostDto.getCandidateCVId()),
                         "No cv found with given id."
                 ),
-                businessRuleService.checkDates(startDate, endDate)
+                businessRuleService.checkDates(startDate, endDate),
+                businessRuleService.checkIfBooleanValueTrue(
+                        !existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(
+                                candidateEducationPostDto.getCandidateCVId(),
+                                candidateEducationPostDto.getSectionId(),
+                                candidateEducationPostDto.getDegree()
+                        ),
+                        "This education already exists in your cv."
+                )
         ));
 
         if(!result.isSuccess()){
@@ -88,5 +96,12 @@ public class CandidateEducationManager implements CandidateEducationService {
                 candidateEducationMapper.map(candidateEducationDao.findAllByCandidateCVIdOrderByEndDateDesc(cvId)),
                 "Data listed by end date desc"
         ));
+    }
+
+    @Override
+    public boolean existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(Long candidateCvId,
+                                                                                      Integer sectionId,
+                                                                                      byte degreeId) {
+        return existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(candidateCvId, sectionId, degreeId);
     }
 }
