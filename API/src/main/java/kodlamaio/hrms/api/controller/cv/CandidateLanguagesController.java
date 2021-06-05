@@ -24,7 +24,8 @@ public class CandidateLanguagesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DataResult<CandidateLanguageGetDto>> add(@RequestBody @Valid CandidateLanguagePostDto candidateLanguagePostDto){
+    public ResponseEntity<DataResult<CandidateLanguageGetDto>> add(
+            @RequestBody @Valid CandidateLanguagePostDto candidateLanguagePostDto){
         return candidateLanguageService.add(candidateLanguagePostDto);
     }
 

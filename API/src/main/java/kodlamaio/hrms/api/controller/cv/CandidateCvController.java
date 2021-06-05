@@ -4,6 +4,8 @@ import kodlamaio.hrms.business.abstracts.cv.CandidateCvService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.cv.CandidateCV;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateCVGetDto;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateCVPostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,13 @@ public class CandidateCvController {
         this.candidateCvService = candidateCvService;
     }
 
-    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<DataResult<CandidateCV>> add(@RequestPart("image") MultipartFile image,
-                                                       @RequestPart("cv") @Valid CandidateCV candidateCV){
-        return candidateCvService.add(candidateCV, image);
+    @PostMapping(value = "/add")
+    public ResponseEntity<DataResult<CandidateCVGetDto>> add(@RequestBody @Valid CandidateCVPostDto candidateCVPostDto){
+        return candidateCvService.add(candidateCVPostDto);
     }
 
     @GetMapping( "/get-all")
-    public ResponseEntity<DataResult<List<CandidateCV>>> getAll(){
+    public ResponseEntity<DataResult<List<CandidateCVGetDto>>> getAll(){
         return candidateCvService.getAll();
     }
 
@@ -41,8 +42,13 @@ public class CandidateCvController {
         return candidateCvService.updatePhoto(file, cvId);
     }
 
-    @PostMapping("/update-cv")
-    public ResponseEntity<DataResult<CandidateCV>> update(){
-        return null;
+    @GetMapping("/get-by-candidate-id/{id}")
+    public ResponseEntity<DataResult<List<CandidateCVGetDto>>> findAllByCandidateId(@PathVariable("id") Long id){
+        return candidateCvService.findAllByCandidateId(id);
+    }
+
+    @GetMapping("abc")
+    public byte[] existsById2(Long id){
+        return candidateCvService.existsById2(id);
     }
 }

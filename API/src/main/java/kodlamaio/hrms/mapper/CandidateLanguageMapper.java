@@ -18,7 +18,7 @@ public interface CandidateLanguageMapper {
     CandidateLanguage map(CandidateLanguagePostDto candidateLanguagePostDto);
 
     @Mapping(target = "candidateCVId", source = "candidateCV.id")
-    @Mapping(target = "language", source = "language.name")
+    @Mapping(target = "name", source = "language.name")
     @Named("toGetDto")
     CandidateLanguageGetDto map(CandidateLanguage candidateLanguage);
 

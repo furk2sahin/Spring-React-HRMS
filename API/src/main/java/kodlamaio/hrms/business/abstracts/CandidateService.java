@@ -11,4 +11,5 @@ public interface CandidateService {
     ResponseEntity<DataResult<CandidateGetDto>> add(CandidatePostDto candidatePostDto);
     DataResult<List<CandidateGetDto>> getAll();
     ResponseEntity<DataResult<List<CandidateGetDto>>> getAllPaged(int pageNo, int pageSize);
+    boolean existsById(Long id);
 }

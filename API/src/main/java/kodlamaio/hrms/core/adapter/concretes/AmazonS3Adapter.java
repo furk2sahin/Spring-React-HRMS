@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @Component
 public class AmazonS3Adapter implements FileService {
@@ -53,11 +56,35 @@ public class AmazonS3Adapter implements FileService {
     }
 
     @Override
-    public String downloadFile(String fileKey) {
+    public byte[] downloadFile(String fileKey) {
         GetObjectRequest request = new GetObjectRequest(bucketName, fileKey);
         S3Object object = amazonS3.getObject(request);
 
-        return displayTextInputStream(object.getObjectContent());
+        //return displayTextInputStream(object.getObjectContent());
+        try {
+            return encodeBase64URL(ImageIO.read(object.getObjectContent()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public byte[] encodeBase64URL(BufferedImage imgBuf) throws IOException {
+        byte[] base64;
+
+        if (imgBuf == null) {
+            base64 = null;
+        } else {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            ImageIO.write(imgBuf, "PNG", out);
+
+            byte[] bytes = out.toByteArray();
+            base64 = Base64.getEncoder().encode(bytes);
+        }
+
+        return base64;
     }
 
     private String displayTextInputStream(InputStream input) {

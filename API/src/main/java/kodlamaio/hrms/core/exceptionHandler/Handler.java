@@ -14,7 +14,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.naming.LimitExceededException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,20 +45,20 @@ public class Handler {
     }
 
     @ExceptionHandler(SizeLimitExceededException.class)
-    public ResponseEntity<Result> handleMediaType(SizeLimitExceededException ex) {
+    public ResponseEntity<Result> handleSizeLimit(SizeLimitExceededException ex) {
         return new ResponseEntity<>(new ErrorResult("Max File Size: 5 MB"),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
 
     @ExceptionHandler(NumberFormatException.class)
-    public ResponseEntity<Result> handleMediaType(NumberFormatException ex) {
+    public ResponseEntity<Result> handleNumberFormat(NumberFormatException ex) {
         return new ResponseEntity<>(new ErrorResult(ex.getMessage()),
                 HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(AmazonS3Exception.class)
-    public ResponseEntity<Result> handleMediaType(AmazonS3Exception ex) {
+    public ResponseEntity<Result> handleAmazonS3(AmazonS3Exception ex) {
         return new ResponseEntity<>(new ErrorResult("Amazon S3 Connection Error"),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -67,7 +66,7 @@ public class Handler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Object> handleJsonExceptions(HttpMessageNotReadableException ex) {
             return new ResponseEntity<>(
-                    new ErrorResult("Wrong date format. Pattern should be like 2015-05-20 (YYYY-mm-dd)"),
+                    new ErrorResult(ex.getMessage()),
                     HttpStatus.NOT_ACCEPTABLE
             );
     }

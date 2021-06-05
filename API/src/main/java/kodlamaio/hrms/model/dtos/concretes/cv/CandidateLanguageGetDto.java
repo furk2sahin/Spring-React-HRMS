@@ -15,7 +15,7 @@ public class CandidateLanguageGetDto {
     
     private byte level;
 
-    private String language;
+    private String name;
 
     private Date createDate;
     

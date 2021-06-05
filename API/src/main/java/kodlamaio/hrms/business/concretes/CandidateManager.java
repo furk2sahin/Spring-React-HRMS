@@ -119,4 +119,9 @@ public class CandidateManager implements CandidateService {
             return new SuccessResult();
         }
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return candidateDao.existsById(id);
+    }
 }

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CandidateDao extends JpaRepository<Candidate, Long> {
     boolean existsByNationalIdentity(String nationalIdentity);
+    boolean existsById(Long id);
 }

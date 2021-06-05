@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,7 @@ public class CandidateJobExperiencesController {
 
     @PostMapping("/add")
     public ResponseEntity<DataResult<CandidateJobExperienceGetDto>> add(
-            @RequestBody CandidateJobExperiencePostDto candidateJobExperiencePostDto){
+            @RequestBody @Valid CandidateJobExperiencePostDto candidateJobExperiencePostDto){
         return candidateJobExperienceService.add(candidateJobExperiencePostDto);
     }
 

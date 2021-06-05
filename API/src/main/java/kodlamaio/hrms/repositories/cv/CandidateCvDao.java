@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CandidateCvDao extends JpaRepository<CandidateCV, Long> {
     List<CandidateCV> findAllByActiveTrue();
+    List<CandidateCV> findAllByCandidateIdAndActiveTrue(Long id);
     boolean existsById(Long id);
 }
