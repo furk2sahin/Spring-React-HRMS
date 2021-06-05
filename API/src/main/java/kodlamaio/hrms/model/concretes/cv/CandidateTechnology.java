@@ -20,7 +20,6 @@ public class CandidateTechnology {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 1, max = 100)
     private String technologyName;
 
     @Temporal(TemporalType.TIMESTAMP)

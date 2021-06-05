@@ -2,7 +2,8 @@ package kodlamaio.hrms.api.controller.cv;
 
 import kodlamaio.hrms.business.abstracts.cv.CandidateTechnologyService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.model.concretes.cv.CandidateTechnology;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateTechnologyGetDto;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateTechnologyPostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,12 @@ public class CandidateTechnologiesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DataResult<CandidateTechnology>> add(@RequestBody CandidateTechnology candidateTechnology){
-        return candidateTechnologyService.add(candidateTechnology);
+    public ResponseEntity<DataResult<CandidateTechnologyGetDto>> add(@RequestBody CandidateTechnologyPostDto candidateTechnologyPostDto){
+        return candidateTechnologyService.add(candidateTechnologyPostDto);
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<DataResult<List<CandidateTechnology>>> getAll(){
+    public ResponseEntity<DataResult<List<CandidateTechnologyGetDto>>> getAll(){
         return candidateTechnologyService.getAll();
     }
 }

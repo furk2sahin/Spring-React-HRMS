@@ -10,7 +10,7 @@ import java.util.List;
 public interface CandidateEducationService {
     ResponseEntity<DataResult<CandidateEducationGetDto>> add(CandidateEducationPostDto candidateEducationPostDto);
     ResponseEntity<DataResult<List<CandidateEducationGetDto>>> findAllByCandidateCVIdOrderByEndDateDesc(Long cvId);
-    boolean existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(Long candidateCvId,
+    boolean existsByCandidateCVIdAndSectionIdAndCandidateEducationDegreeId(Long candidateCvId,
                                                                                Integer sectionId,
                                                                                byte degreeId);
 }

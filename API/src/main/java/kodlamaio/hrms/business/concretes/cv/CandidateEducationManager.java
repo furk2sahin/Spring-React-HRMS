@@ -70,7 +70,7 @@ public class CandidateEducationManager implements CandidateEducationService {
                 ),
                 businessRuleService.checkDates(startDate, endDate),
                 businessRuleService.checkIfBooleanValueTrue(
-                        !existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(
+                        !existsByCandidateCVIdAndSectionIdAndCandidateEducationDegreeId(
                                 candidateEducationPostDto.getCandidateCVId(),
                                 candidateEducationPostDto.getSectionId(),
                                 candidateEducationPostDto.getDegree()
@@ -99,9 +99,10 @@ public class CandidateEducationManager implements CandidateEducationService {
     }
 
     @Override
-    public boolean existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(Long candidateCvId,
+    public boolean existsByCandidateCVIdAndSectionIdAndCandidateEducationDegreeId(Long candidateCvId,
                                                                                       Integer sectionId,
                                                                                       byte degreeId) {
-        return existsByCandidateCVIdAndAndSectionIdAAndCandidateEducationDegreeId(candidateCvId, sectionId, degreeId);
+        return candidateEducationDao
+                .existsByCandidateCVIdAndSectionIdAndCandidateEducationDegreeId(candidateCvId, sectionId, degreeId);
     }
 }
