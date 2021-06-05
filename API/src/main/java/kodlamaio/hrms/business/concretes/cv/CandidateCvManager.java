@@ -118,10 +118,4 @@ public class CandidateCvManager implements CandidateCvService {
     public boolean existsById(Long id) {
         return candidateCvDao.existsById(id);
     }
-
-    @Override
-    public byte[] existsById2(Long id) {
-
-        return null;
-    }
 }

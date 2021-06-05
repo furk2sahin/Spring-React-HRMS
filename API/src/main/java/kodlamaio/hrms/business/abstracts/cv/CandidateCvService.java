@@ -15,5 +15,4 @@ public interface CandidateCvService {
     ResponseEntity<Result> updatePhoto(MultipartFile file, Long id);
     ResponseEntity<DataResult<List<CandidateCVGetDto>>> findAllByCandidateId(Long id);
     boolean existsById(Long id);
-    byte[] existsById2(Long id);
 }

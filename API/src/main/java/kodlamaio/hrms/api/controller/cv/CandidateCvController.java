@@ -46,9 +46,4 @@ public class CandidateCvController {
     public ResponseEntity<DataResult<List<CandidateCVGetDto>>> findAllByCandidateId(@PathVariable("id") Long id){
         return candidateCvService.findAllByCandidateId(id);
     }
-
-    @GetMapping("abc")
-    public byte[] existsById2(Long id){
-        return candidateCvService.existsById2(id);
-    }
 }
