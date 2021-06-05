@@ -5,6 +5,7 @@ import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.model.concretes.EmployerVerify;
 import kodlamaio.hrms.model.concretes.SystemPersonnel;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.UUID;
 
@@ -25,4 +26,5 @@ public interface BusinessRuleService {
     Result checkIfBooleanValueTrue(boolean value, String message);
     Result checkIfFileIsAnImage(String fileName);
     Result checkDates(Date startDate, Date endDate);
+    DataResult<Date> checkIfEndDateNull(String endDateString) throws ParseException;
 }

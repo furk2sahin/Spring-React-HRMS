@@ -22,7 +22,6 @@ public class CandidateJobExperience {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 2, max = 100)
     private String companyName;
 
     @Past

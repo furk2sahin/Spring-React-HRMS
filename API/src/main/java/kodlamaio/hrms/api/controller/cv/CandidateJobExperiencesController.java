@@ -4,6 +4,8 @@ import kodlamaio.hrms.business.abstracts.cv.CandidateJobExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.model.concretes.cv.CandidateJobExperience;
 import kodlamaio.hrms.model.concretes.cv.education.CandidateEducation;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateJobExperienceGetDto;
+import kodlamaio.hrms.model.dtos.concretes.cv.CandidateJobExperiencePostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +24,18 @@ public class CandidateJobExperiencesController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DataResult<CandidateJobExperience>> add(
-            @RequestBody CandidateJobExperience candidateJobExperience){
-        return candidateJobExperienceService.add(candidateJobExperience);
+    public ResponseEntity<DataResult<CandidateJobExperienceGetDto>> add(
+            @RequestBody CandidateJobExperiencePostDto candidateJobExperiencePostDto){
+        return candidateJobExperienceService.add(candidateJobExperiencePostDto);
     }
 
     @GetMapping("/get-all")
-    public ResponseEntity<DataResult<List<CandidateJobExperience>>> getAll(){
+    public ResponseEntity<DataResult<List<CandidateJobExperienceGetDto>>> getAll(){
         return candidateJobExperienceService.getAll();
     }
 
     @GetMapping("/order-by-end-date-desc/{cvId}")
-    public ResponseEntity<DataResult<List<CandidateJobExperience>>> orderByEndDateDesc(@PathVariable("cvId") Long cvId){
+    public ResponseEntity<DataResult<List<CandidateJobExperienceGetDto>>> orderByEndDateDesc(@PathVariable("cvId") Long cvId){
         return candidateJobExperienceService.findAllByCandidateCVIdOrderByEndDateDesc(cvId);
     }
 }

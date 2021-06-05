@@ -1,7 +1,6 @@
 package kodlamaio.hrms.business.abstracts.cv;
 
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.model.concretes.cv.education.CandidateEducation;
 import kodlamaio.hrms.model.dtos.concretes.cv.CandidateEducationGetDto;
 import kodlamaio.hrms.model.dtos.concretes.cv.CandidateEducationPostDto;
 import org.springframework.http.ResponseEntity;

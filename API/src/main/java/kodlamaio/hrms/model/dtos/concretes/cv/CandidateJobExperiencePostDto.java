@@ -4,12 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CandidateEducationPostDto {
+public class CandidateJobExperiencePostDto {
+
+    @Size(min = 2, max = 100)
+    private String companyName;
 
     @NotNull
     @Pattern(regexp = "^(19|20)\\d\\d(-)(0[1-9]|1[012])(-)(0[1-9]|[12][0-9]|3[01])$")
@@ -22,14 +28,8 @@ public class CandidateEducationPostDto {
     private Long candidateCVId;
 
     @Min(1)
-    @Max(5)
-    private byte degree;
-
-    @Min(1)
-    @Max(7)
-    private byte grade;
-
-    @Min(400)
     @NotNull
-    private Integer sectionId;
+    private Long jobPositionId;
+
+
 }

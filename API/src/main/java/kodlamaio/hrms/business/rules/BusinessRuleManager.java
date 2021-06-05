@@ -9,6 +9,8 @@ import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -186,8 +188,21 @@ public class BusinessRuleManager implements BusinessRuleService{
     public Result checkDates(Date startDate, Date endDate){
         if(startDate.after(new Date())){
             return new ErrorResult("Start date should be before than now");
-        } else if(startDate.after(endDate)){
-            return new ErrorResult("Start date cannot be greater than end date");
+        } else if(endDate != null ){
+            if(startDate.after(endDate))
+                return new ErrorResult("Start date cannot be greater than end date");
+            else return new SuccessResult();
         } else return new SuccessResult();
+    }
+
+    @Override
+    public DataResult<Date> checkIfEndDateNull(String endDateString) throws ParseException {
+        if(endDateString != null){
+            if(Pattern.compile("^(19|20)\\d\\d(-)(0[1-9]|1[012])(-)(0[1-9]|[12][0-9]|3[01])$")
+                    .matcher(endDateString).matches()){
+                return new SuccessDataResult<>(new SimpleDateFormat("yyyy-MM-dd").parse(endDateString));
+            }
+        }
+        return new ErrorDataResult<>("Wrong end date format");
     }
 }

@@ -23,6 +23,7 @@ public interface CandidateEducationMapper {
     @Named("toGetDto")
     @Mapping(source = "candidateEducationDegree.degree", target = "degreeName")
     @Mapping(source = "candidateEducationGrade.grade", target = "gradeName")
+    @Mapping(source = "candidateCV.id", target = "candidateCVId")
     CandidateEducationGetDto map(CandidateEducation candidateEducation);
 
     @IterableMapping(qualifiedByName = "toGetDto")

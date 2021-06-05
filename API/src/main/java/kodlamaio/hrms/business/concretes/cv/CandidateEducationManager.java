@@ -1,8 +1,10 @@
 package kodlamaio.hrms.business.concretes.cv;
 
+import kodlamaio.hrms.business.abstracts.cv.CandidateCvService;
 import kodlamaio.hrms.business.abstracts.cv.CandidateEducationService;
 import kodlamaio.hrms.business.abstracts.local.SectionService;
 import kodlamaio.hrms.business.rules.BusinessRuleService;
+import kodlamaio.hrms.core.utilities.resultchecker.ResultChecker;
 import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.mapper.CandidateEducationMapper;
 import kodlamaio.hrms.model.concretes.cv.education.CandidateEducation;
@@ -15,8 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class CandidateEducationManager implements CandidateEducationService {
@@ -25,35 +29,50 @@ public class CandidateEducationManager implements CandidateEducationService {
     private final CandidateEducationMapper candidateEducationMapper;
     private final BusinessRuleService businessRuleService;
     private final SectionService sectionService;
+    private final CandidateCvService candidateCvService;
 
     @Autowired
     public CandidateEducationManager(CandidateEducationDao candidateEducationDao,
                                      CandidateEducationMapper candidateEducationMapper,
                                      BusinessRuleService businessRuleService,
-                                     SectionService sectionService) {
+                                     SectionService sectionService,
+                                     CandidateCvService candidateCvService) {
         this.candidateEducationDao = candidateEducationDao;
         this.candidateEducationMapper = candidateEducationMapper;
         this.businessRuleService = businessRuleService;
         this.sectionService = sectionService;
+        this.candidateCvService = candidateCvService;
     }
 
     @Override
-    public ResponseEntity<DataResult<CandidateEducationGetDto>> add(CandidateEducationPostDto candidateEducationPostDto) {
+    public ResponseEntity<DataResult<CandidateEducationGetDto>> add(CandidateEducationPostDto candidateEducationPostDto)  {
         CandidateEducation candidateEducation = candidateEducationMapper.map(candidateEducationPostDto);
         Date startDate;
         Date endDate;
+        DataResult<Date> dateDataResult;
         try {
+            dateDataResult = businessRuleService.checkIfEndDateNull(candidateEducationPostDto.getEndDateString());
+            endDate = dateDataResult.getData();
             startDate = new SimpleDateFormat("yyyy-MM-dd").parse(candidateEducationPostDto.getStartDateString());
-            endDate = new SimpleDateFormat("yyyy-MM-dd").parse(candidateEducationPostDto.getEndDateString());
+
         } catch (ParseException e) {
             return ResponseEntity.badRequest().body(new ErrorDataResult<>("Parse Exception"));
         }
-        Result result = businessRuleService.checkDates(startDate, endDate);
+
+        Result result = ResultChecker.check(Arrays.asList(
+                businessRuleService.checkIfBooleanValueTrue(
+                        sectionService.existsById(candidateEducationPostDto.getSectionId()),
+                        "No section found with given id."
+                ),
+                businessRuleService.checkIfBooleanValueTrue(
+                        candidateCvService.existsById(candidateEducationPostDto.getCandidateCVId()),
+                        "No cv found with given id."
+                ),
+                businessRuleService.checkDates(startDate, endDate)
+        ));
 
         if(!result.isSuccess()){
             return ResponseEntity.badRequest().body(new ErrorDataResult<>(result.getMessage()));
-        } else if(!sectionService.existsById(candidateEducationPostDto.getSectionId())){
-            return ResponseEntity.badRequest().body(new ErrorDataResult<>("No section found with given id."));
         } else {
             candidateEducation.setEndDate(endDate);
             candidateEducation.setStartDate(startDate);

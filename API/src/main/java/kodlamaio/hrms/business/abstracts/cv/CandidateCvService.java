@@ -12,4 +12,5 @@ public interface CandidateCvService {
     ResponseEntity<DataResult<CandidateCV>> add(CandidateCV candidateCV, MultipartFile image);
     ResponseEntity<DataResult<List<CandidateCV>>> getAll();
     ResponseEntity<Result> updatePhoto(MultipartFile file, Long id);
+    boolean existsById(Long id);
 }
