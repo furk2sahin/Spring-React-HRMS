@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/system-personnel")
+@CrossOrigin
 public class SystemPersonnelController {
 
     private final SystemPersonnelService personnelService;

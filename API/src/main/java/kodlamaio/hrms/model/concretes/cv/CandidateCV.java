@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,17 +56,17 @@ public class CandidateCV {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
     @JsonIgnoreProperties("candidateCV")
-    private List<CandidateEducation> candidateEducations;
+    private List<CandidateEducation> candidateEducations = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
     @JsonIgnoreProperties("candidateCV")
-    private List<CandidateJobExperience> candidateJobExperiences;
+    private List<CandidateJobExperience> candidateJobExperiences = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
     @JsonIgnoreProperties("candidateCV")
-    private List<CandidateLanguage> candidateLanguages;
+    private List<CandidateLanguage> candidateLanguages = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "candidateCV")
     @JsonIgnoreProperties("candidateCV")
-    private List<CandidateTechnology> candidateTechnologies;
+    private List<CandidateTechnology> candidateTechnologies = new ArrayList<>();
 }

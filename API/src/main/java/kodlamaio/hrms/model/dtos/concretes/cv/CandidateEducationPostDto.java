@@ -23,11 +23,11 @@ public class CandidateEducationPostDto {
 
     @Min(1)
     @Max(5)
-    private byte degree;
+    private byte degreeId;
 
     @Min(1)
     @Max(7)
-    private byte grade;
+    private byte gradeId;
 
     @Min(400)
     @NotNull

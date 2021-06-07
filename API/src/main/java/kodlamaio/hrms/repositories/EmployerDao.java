@@ -8,5 +8,4 @@ import java.util.UUID;
 
 public interface EmployerDao extends JpaRepository<Employer, Long> {
     Optional<Employer> findByUuid(UUID uuid);
-    boolean existsById(Long id);
 }

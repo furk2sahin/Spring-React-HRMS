@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface JobPositionDao extends JpaRepository<JobPosition, Long> {
     JobPosition getByJobName(String jobName);
     boolean existsByJobName(String jobName);
-    boolean existsById(Long id);
 }

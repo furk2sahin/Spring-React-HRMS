@@ -73,7 +73,7 @@ public class CandidateEducationManager implements CandidateEducationService {
                         !existsByCandidateCVIdAndSectionIdAndCandidateEducationDegreeId(
                                 candidateEducationPostDto.getCandidateCVId(),
                                 candidateEducationPostDto.getSectionId(),
-                                candidateEducationPostDto.getDegree()
+                                candidateEducationPostDto.getDegreeId()
                         ),
                         "This education already exists in your cv."
                 )

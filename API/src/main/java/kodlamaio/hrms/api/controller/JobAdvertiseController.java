@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/job-advertise")
+@CrossOrigin
 public class JobAdvertiseController {
 
     private final JobAdvertiseService jobAdvertiseService;

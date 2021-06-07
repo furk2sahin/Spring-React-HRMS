@@ -13,10 +13,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CandidateEducationMapper {
 
-
     @Mapping(source = "candidateCVId", target = "candidateCV.id")
-    @Mapping(source = "degree", target = "candidateEducationDegree.id")
-    @Mapping(source = "grade", target = "candidateEducationGrade.id")
+    @Mapping(source = "degreeId", target = "candidateEducationDegree.id")
+    @Mapping(source = "gradeId", target = "candidateEducationGrade.id")
     @Mapping(source = "sectionId", target = "section.id")
     CandidateEducation map(CandidateEducationPostDto candidateEducationPostDto);
 

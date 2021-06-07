@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/candidate-language")
+@CrossOrigin
 public class CandidateLanguagesController {
 
     private CandidateLanguageService candidateLanguageService;

@@ -7,7 +7,7 @@ import kodlamaio.hrms.core.utilities.results.*;
 import kodlamaio.hrms.model.concretes.EmployerVerify;
 import kodlamaio.hrms.model.concretes.SystemPersonnel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-@Service
+@Component
 public class BusinessRuleManager implements BusinessRuleService{
 
     private final UserService userService;

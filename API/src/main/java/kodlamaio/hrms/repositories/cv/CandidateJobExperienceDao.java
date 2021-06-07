@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CandidateJobExperienceDao extends JpaRepository<CandidateJobExperience, Long> {
     List<CandidateJobExperience> findAllByCandidateCVIdOrderByEndDateDesc(Long cvId);
-    boolean existsByCandidateCVIdAndAndCompanyNameAndJobPositionId(Long candidateCVId,
+    boolean existsByCandidateCVIdAndCompanyNameAndJobPositionId(Long candidateCVId,
                                                                    String companyName,
                                                                    Long jobPositionId);
 }

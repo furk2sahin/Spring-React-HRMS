@@ -4,7 +4,6 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -28,19 +27,14 @@ public abstract class User {
     @Column(updatable = false)
     private Date creationDate;
 
-    @Email(message = "Wrong email format")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Password cannot be empty.")
     @Column(nullable = false)
-    @Size(min = 6, max = 30, message = "Password length should be between 6-30.")
     private String password;
 
     @Transient
-    @NotBlank(message = "Password check cannot be empty.")
     @Column(nullable = false)
-    @Size(min = 6, max = 30, message = "Password length should be between 6-30.")
     private String passwordCheck;
 
     private boolean enabled = true;

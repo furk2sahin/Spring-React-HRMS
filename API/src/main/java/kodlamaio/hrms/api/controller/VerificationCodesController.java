@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/verification-code")
+@CrossOrigin
 public class VerificationCodesController {
 
     private final VerificationCodeService verificationCodeService;
