@@ -31,9 +31,9 @@ public class JobAdvertiseController {
         return jobAdvertiseService.findAllByActiveTrue();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{expiryInDays}")
     public DataResult<JobAdvertiseGetDto> add(@RequestBody @Valid JobAdvertisePostDto jobAdvertisePostDto,
-                                              @RequestParam("expiryInDays") int expiryInDays){
+                                              @PathVariable("expiryInDays") int expiryInDays){
         return jobAdvertiseService.add(jobAdvertisePostDto, expiryInDays);
     }
 
@@ -45,43 +45,43 @@ public class JobAdvertiseController {
             "sortId=6 -> for sort BY_MIN_SALARY_ASC ----- " +
             "sortId=7 -> for sort BY_EXPIRATION_DATE_DESC ----- " +
             "sortId=8 -> for sort BY_EXPIRATION_DATE_ASC")
-    @GetMapping("/findAllSorted")
-    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueSorted(@RequestParam("sortId") int sortId){
+    @GetMapping("/findAllSorted/{sortId}")
+    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueSorted(@PathVariable("sortId") int sortId){
         return jobAdvertiseService.findAllByActiveTrueSorted(sortId);
     }
 
-    @GetMapping("/findAllByEmployerUuid")
-    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndEmployerUuid(@RequestParam("uuid") UUID uuid){
+    @GetMapping("/findAllByEmployerUuid/{uuid}")
+    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndEmployerUuid(@PathVariable("uuid") UUID uuid){
         return jobAdvertiseService.findAllByActiveTrueAndEmployerUuid(uuid);
     }
 
-    @GetMapping("/findAllByCityId")
-    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndCityId(@RequestParam("id") Short id){
+    @GetMapping("/findAllByCityId/{id}")
+    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndCityId(@PathVariable("id") Short id){
         return jobAdvertiseService.findAllByActiveTrueAndCityId(id);
     }
 
-    @GetMapping("/findAllByJobPositionId")
-    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndJobPositionId(@RequestParam("id") Long id){
+    @GetMapping("/findAllByJobPositionId/{id}")
+    public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndJobPositionId(@PathVariable("id") Long id){
         return jobAdvertiseService.findAllByActiveTrueAndJobPositionId(id);
     }
 
-    @GetMapping("/findAllByCompanyNameContains")
+    @GetMapping("/findAllByCompanyNameContains/{name}")
     public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(
-            @RequestParam("name") String name){
+            @PathVariable("name") String name){
         return jobAdvertiseService.findAllByActiveTrueAndEmployer_CompanyNameContainsIgnoreCase(name);
     }
 
-    @GetMapping("/findAllByActiveTruePaged")
+    @GetMapping("/findAllByActiveTruePaged/{pageNumber}/{pageSize}")
     public ResponseEntity<DataResult<List<JobAdvertiseGetDto>>> findAllByActiveTruePaged(
-                                                                    @RequestParam("pageNumber") int pageNumber,
-                                                                   @RequestParam("pageSize") int pageSize){
+                                                                    @PathVariable("pageNumber") int pageNumber,
+                                                                   @PathVariable("pageSize") int pageSize){
         return jobAdvertiseService.findAllByActiveTruePaged(pageNumber, pageSize);
     }
 
 
-    @PutMapping("/updateStatus")
-    public ResponseEntity<Result> update(@RequestParam("id") Long id,
-                                         @RequestParam("active") boolean active){
+    @PutMapping("/updateStatus/{id}/{active}")
+    public ResponseEntity<Result> update(@PathVariable("id") Long id,
+                                         @PathVariable("active") boolean active){
         return jobAdvertiseService.update(id, active);
     }
 

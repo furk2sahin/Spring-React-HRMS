@@ -28,9 +28,9 @@ public class SystemPersonnelController {
         return personnelService.add(systemPersonnelPostDto);
     }
 
-    @GetMapping("/getAllPaged")
-    public ResponseEntity<DataResult<List<SystemPersonnelGetDto>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
-                                                     @RequestParam("pageSize") int pageSize){
+    @GetMapping("/getAllPaged/{pageNumber}/{pageSize}")
+    public ResponseEntity<DataResult<List<SystemPersonnelGetDto>>> getAllPaged(@PathVariable("pageNumber") int pageNumber,
+                                                     @PathVariable("pageSize") int pageSize){
         return personnelService.getAllPaged(pageNumber, pageSize);
     }
 }

@@ -35,9 +35,9 @@ public class CandidateCvController {
         return candidateCvService.getAll();
     }
 
-    @PostMapping("/update-photo")
+    @PostMapping("/update-photo/{cvId}")
     public ResponseEntity<Result> uploadPhoto(@RequestParam("image") MultipartFile file,
-                                              @RequestParam("cvId") Long cvId){
+                                              @PathVariable("cvId") Long cvId){
         return candidateCvService.updatePhoto(file, cvId);
     }
 

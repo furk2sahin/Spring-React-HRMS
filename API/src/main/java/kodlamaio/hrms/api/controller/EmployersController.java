@@ -33,9 +33,9 @@ public class EmployersController {
         return employerService.add(employerPostDto);
     }
 
-    @GetMapping("/getAllPaged")
-    public ResponseEntity<DataResult<List<EmployerGetDto>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
-                                                                  @RequestParam("pageSize") int pageSize){
+    @GetMapping("/getAllPaged/{pageNumber}/{pageSize}")
+    public ResponseEntity<DataResult<List<EmployerGetDto>>> getAllPaged(@PathVariable("pageNumber") int pageNumber,
+                                                                  @PathVariable("pageSize") int pageSize){
         return employerService.getAllPaged(pageNumber, pageSize);
     }
 }

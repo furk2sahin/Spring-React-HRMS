@@ -4,10 +4,10 @@ import kodlamaio.hrms.business.abstracts.local.LanguageService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
-import kodlamaio.hrms.model.concretes.local.City;
 import kodlamaio.hrms.model.concretes.local.Language;
 import kodlamaio.hrms.repositories.local.LanguageDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,10 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public ResponseEntity<DataResult<List<Language>>> findAll() {
-        return ResponseEntity.ok(new SuccessDataResult<>(languageDao.findAll(), "Languages listed successfully!"));
+        return ResponseEntity.ok(new SuccessDataResult<>(
+                languageDao.findAll(Sort.by(Sort.Direction.ASC, "name")),
+                "Languages listed successfully!"
+        ));
     }
 
     @Override

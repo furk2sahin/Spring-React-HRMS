@@ -33,9 +33,9 @@ public class CandidatesController {
         return candidateService.add(candidatePostDto);
     }
 
-    @GetMapping("/getAllPaged")
-    public ResponseEntity<DataResult<List<CandidateGetDto>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
-                                                                   @RequestParam("pageSize") int pageSize){
+    @GetMapping("/getAllPaged/{pageNumber}/{pageSize}")
+    public ResponseEntity<DataResult<List<CandidateGetDto>>> getAllPaged(@PathVariable("pageNumber") int pageNumber,
+                                                                   @PathVariable("pageSize") int pageSize){
         return candidateService.getAllPaged(pageNumber, pageSize);
     }
 }

@@ -12,7 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/candidate-tech")
+@RequestMapping("/api/v1/candidate-technologies")
 @CrossOrigin
 public class CandidateTechnologiesController {
 

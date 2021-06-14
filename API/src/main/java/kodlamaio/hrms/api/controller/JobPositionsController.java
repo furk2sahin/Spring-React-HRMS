@@ -33,14 +33,14 @@ public class JobPositionsController {
         return jobPositionService.getByName(jobName);
     }
 
-    @PostMapping("/add-job-position")
+    @PostMapping("/add")
     public ResponseEntity<ResponseEntity<DataResult<JobPosition>>> add(@Valid @RequestBody JobPositionDto jobPositionDto){
         return ResponseEntity.ok(jobPositionService.add(jobPositionDto));
     }
 
-    @GetMapping("/getAllPaged")
-    public ResponseEntity<DataResult<List<JobPosition>>> getAllPaged(@RequestParam("pageNumber") int pageNumber,
-                                                     @RequestParam("pageSize") int pageSize){
+    @GetMapping("/getAllPaged/{pageNumber}/{pageSize}")
+    public ResponseEntity<DataResult<List<JobPosition>>> getAllPaged(@PathVariable("pageNumber") int pageNumber,
+                                                     @PathVariable("pageSize") int pageSize){
         return jobPositionService.getAllPaged(pageNumber, pageSize);
     }
 }

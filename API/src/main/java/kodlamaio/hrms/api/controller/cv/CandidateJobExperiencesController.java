@@ -2,8 +2,6 @@ package kodlamaio.hrms.api.controller.cv;
 
 import kodlamaio.hrms.business.abstracts.cv.CandidateJobExperienceService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.model.concretes.cv.CandidateJobExperience;
-import kodlamaio.hrms.model.concretes.cv.education.CandidateEducation;
 import kodlamaio.hrms.model.dtos.concretes.cv.CandidateJobExperienceGetDto;
 import kodlamaio.hrms.model.dtos.concretes.cv.CandidateJobExperiencePostDto;
 import org.springframework.beans.factory.annotation.Autowired;

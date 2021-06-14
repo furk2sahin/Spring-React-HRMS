@@ -23,7 +23,7 @@ public class VerificationCodesController {
         this.verificationCodeService = verificationCodeService;
     }
 
-    @GetMapping("/confirm/{uuid}/{code}")
+    @PostMapping("/confirm/{uuid}/{code}")
     public ResponseEntity<Result> confirm(@PathVariable("uuid") UUID uuid, @PathVariable("code") String verificationCode){
         ResponseEntity<DataResult<VerificationCode>> result = verificationCodeService.findByUserUuid(uuid);
         DataResult<VerificationCode> body = result.getBody();
